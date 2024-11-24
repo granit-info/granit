@@ -1,0 +1,10 @@
+.hint{
+    color: rgb(94, 94, 94);
+    font-size: 0.72rem;
+    margin: 0;
+}
+
+.custom-modal {
+    max-width: 80vw; 
+  }
+  

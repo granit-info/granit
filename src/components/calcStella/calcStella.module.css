@@ -1,0 +1,119 @@
+.container {
+    max-width: 1280px;
+    margin: 10px auto;
+    padding: 10px;
+    font-family: "Roboto", sans-serif;    
+    filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.5));
+
+    background: rgba(255, 255, 255, 0.6); /* Полупрозрачный белый фон */
+    backdrop-filter: blur(10px); /* Эффект размытия */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Полупрозрачная рамка */
+    border-radius: 15px;
+  }
+  
+  .sheet {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.8); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+  }
+  .leftSide {
+    text-align: left;
+    width: 60vw;
+  }
+  .rightSide {
+    text-align: left;
+    width: 40vw;
+  }
+  
+  .sheetPoem {
+    padding: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.8); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+  }
+  .sheetPoemPart {
+    display: flex;
+    justify-content: space-between;
+    text-align: center; 
+  }
+
+  .sizes {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  .sizesHider {
+    display: flex;
+    align-items: baseline;
+    justify-content: start;
+  }
+
+  .textResult{
+    text-align: left;
+    line-height: 1.5;
+    margin-left: 2vw;
+  }
+
+  .textCost{
+    margin-top: 10px;
+    color: green;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .secondaryText{
+    color: rgb(0, 0, 0, 0.6);
+  }
+  
+  .checks{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .artwork{
+    margin-left: 30px;
+    line-height: 2; 
+  }
+
+  b {
+    margin-left: 10px; 
+  }
+  
+  .button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .button:hover {
+    background-color: #45a049;
+  }
+  
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: none;
+  }
+  
