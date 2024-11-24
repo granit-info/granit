@@ -5,9 +5,10 @@ import { GlobalProvider } from './globalContext/PriceContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
+  const basename = '/granit'; 
   return (
     <GlobalProvider>
-      <Router>
+      <Router basename={basename}>
         <Routes>
           <Route path="/" element={<CalcStella />} />
           <Route path="/prices" element={<AdminPanel />} />
