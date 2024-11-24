@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import css from "./CalcStella.module.css";
+import css from "./calcStella.module.css";
 import CustomDropdown from "../customDropdown/CustomDropdown";
 import { Material } from "../../interfaces/Material";
 import {
