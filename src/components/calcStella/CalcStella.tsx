@@ -56,12 +56,12 @@ export default function CalcStella() {
 
   // Начальное состояние формы
   const [formData, setFormData] = useState<FormData>({
-    width: 0.6,
-    height: 1.1,
-    thickness: 0.06,
-    // width: undefined,
-    // height: undefined,
-    // thickness: undefined,
+    // width: 0.6,
+    // height: 1.1,
+    // thickness: 0.06,
+    width: undefined,
+    height: undefined,
+    thickness: undefined,
     dropdown: null,
   });
 
@@ -859,7 +859,7 @@ export default function CalcStella() {
             {kopir.lenght && formData.thickness && isValidForm ? (
               <div className={css.textResult}>
                 <p>
-                  Загальна площа малюнку: {kopir.lenght * formData.thickness} м²
+                  Загальна площа копіру: {kopir.lenght * formData.thickness} м²
                 </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
