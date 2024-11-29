@@ -31,7 +31,6 @@ import {
   PoemAddWord,
 } from "../../interfaces/data";
 import { usePriseContext } from "../../globalContext/usePriseContext";
-import { Link } from "react-router-dom";
 import { useSyncedState } from "../../tools/useSyncedState";
 
 export default function CalcStella() {
@@ -715,7 +714,6 @@ export default function CalcStella() {
 
   return (
     <>
-      <Link to="/prices">ADMIN</Link>
       <div className={css.container}>
         {/*                                                 --------------------------   РАЗМЕРЫ и материал  */}
         <div className={css.sheet}>

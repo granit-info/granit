@@ -1,6 +1,6 @@
 import './App.css';
 import AdminPanel from './components/admin/AdminPanel';
-import CalcStella from './components/calcStella/CalcStella';
+import MainPage from './components/mainPage/mainPage';
 import { GlobalProvider } from './globalContext/PriceContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ function App() {
     <GlobalProvider>
       <Router basename={basename}>
         <Routes>
-          <Route path="/" element={<CalcStella />} />
+          <Route path="/" element={<MainPage />} />
           <Route path="/prices" element={<AdminPanel />} />
         </Routes>
       </Router>
