@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import PricesPage from "./price/PricesPage";
 import { Link } from "react-router-dom";
 import MaterialManagement from "./material/MaterialManagement ";
+import UserManagement from "./user/UserManagement";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -65,7 +66,7 @@ export default function BasicTabs() {
             <MaterialManagement />
           </AdminPanel>
           <AdminPanel value={value} index={2}>
-            In progress...
+            <UserManagement />
           </AdminPanel>
         </Box>
       </div>
