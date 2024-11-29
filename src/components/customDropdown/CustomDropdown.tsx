@@ -14,9 +14,15 @@ import { db } from "../../api/firebase";
 
 interface CustomDropdownProps {
   onSelect: (value: Material | null) => void;
+  selectedMaterial: Material | null;
 }
 
-export default function CustomDropdown({ onSelect }: CustomDropdownProps) {
+export default function CustomDropdown({
+  onSelect,
+  selectedMaterial,
+}: CustomDropdownProps) {
+  const [materials, setMaterials] = useState<Material[]>([]);
+
   // const materials: Material[] = useMemo(() => [
   //   {
   //     link: "https://www.nash-granit.com.ua/images/gabro.png",
@@ -55,8 +61,6 @@ export default function CustomDropdown({ onSelect }: CustomDropdownProps) {
   //   },
   // ], []);
 
-  const [materials, setMaterials] = useState<Material[]>([]);
-
   useEffect(() => {
     const fetchMaterials = async () => {
       try {
@@ -71,7 +75,7 @@ export default function CustomDropdown({ onSelect }: CustomDropdownProps) {
             }))
           );
         });
-        return () => unsubscribe(); // Отписываемся при размонтировании
+        return () => unsubscribe();
       } catch (error) {
         console.error("Ошибка при загрузке материалов:", error);
       }
@@ -79,12 +83,13 @@ export default function CustomDropdown({ onSelect }: CustomDropdownProps) {
 
     fetchMaterials();
   }, []);
-  
+
   return (
     <Autocomplete
       id="materials-select"
       options={materials}
       getOptionLabel={(option) => option.label}
+      value={selectedMaterial || null} 
       onChange={(_, value) => onSelect(value)}
       filterOptions={(options, { inputValue }) =>
         options.filter((option) =>
@@ -111,7 +116,13 @@ export default function CustomDropdown({ onSelect }: CustomDropdownProps) {
             <p style={{ fontSize: "2rem", marginLeft: "10px" }}>
               {option.label}
             </p>
-            <p style={{ fontSize: "1rem", marginLeft: "10px", color: "darkgray" }}>
+            <p
+              style={{
+                fontSize: "1rem",
+                marginLeft: "10px",
+                color: "darkgray",
+              }}
+            >
               ({option.price.toLocaleString("ru-RU")} грн. за м³)
             </p>
           </Box>
