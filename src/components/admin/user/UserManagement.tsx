@@ -9,7 +9,6 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "../../../api/firebase";
-import { Margin } from "@mui/icons-material";
 
 interface User {
   id: string;
