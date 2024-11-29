@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import css from "./calcStella.module.css";
+import css from "./CalcBox.module.css";
 import CustomDropdown from "../customDropdown/CustomDropdown";
 import { Material } from "../../interfaces/Material";
 import {
@@ -18,143 +18,102 @@ import {
 } from "@mui/material";
 import {
   PriseFioFormat,
-  PrisePhotoglassFormat,
-  PrisePhotokeramFormat,
 } from "../../interfaces/Price";
 import {
   BacksideSize,
   CutoutSize,
   FioIndSize,
   FormData,
-  HiderSize,
-  Kopir,
   PoemAddWord,
 } from "../../interfaces/data";
 import { usePriseContext } from "../../globalContext/usePriseContext";
 import { useSyncedState } from "../../tools/useSyncedState";
 
-export default function CalcStella() {
+export default function CalcBox() {
   const {
     prisePoemAddWord,
-    priseHackle,
-    priseHider,
     priseFioFormat,
-    priseCross,
-    prisePhotoglassFormat,
-    prisePhotokeramFormat,
     priseFioIndivid,
     priseFacet,
     prisePoem,
     priseBackside,
-    priseKopir,
     priseCutout,
     priseArtwork,
-    // isPriceLoaded
   } = usePriseContext();
 
   const [isValidForm, setIsValidForm] = useState<boolean>(false);
 
   // Начальное состояние формы
-  const [formData, setFormData] = useSyncedState<FormData>("formDataStella", {
-    // width: 0.6,
-    // height: 1.1,
-    // thickness: 0.06,
+  const [formData, setFormData] = useSyncedState<FormData>("formDataBox", {
     width: undefined,
     height: undefined,
     thickness: undefined,
     dropdown: null,
   });
 
-  const [facetSizeStella, setFacetSizeStella] = useSyncedState<number>(
-    "facetSizeStella",
-    0
-  );
-  const [facetLenghtStella, setFacetLenghtStella] = useSyncedState<
-    number | undefined
-  >("facetLenghtStella", undefined);
-  const [hackleStella, setHackleStella] = useSyncedState<number | undefined>(
-    "hackleStella",
-    undefined
-  );
-  const [fioFormatStella, setFioFormatStella] = useSyncedState<number>(
-    "fioFormatStella",
+  const [facetSizeBox, setFacetSizeBox] = useSyncedState<number>(
+    "facetSizeBox",
     0
   );
 
-  const [selectedFioFormatStella, setSelectedFioFormatStella] =
-    useSyncedState<PriseFioFormat | null>("selectedFioFormatStella", null);
-
-  const [selectedPhotoglassFormatStella, setSelectedPhotoglassFormatStella] =
-    useSyncedState<PriseFioFormat | null>(
-      "selectedPhotoglassFormatStella",
-      null
-    );
-
-  const [selectedPhotokeramFormatStella, setSelectedPhotokeramFormatStella] =
-    useSyncedState<PriseFioFormat | null>(
-      "selectedPhotokeramFormatStella",
-      null
-    );
-
-  const [selectedCutoutStella, setSelectedCutoutStella] = useSyncedState<
+  const [facetLenghtBox, setFacetLenghtBox] = useSyncedState<
     number | undefined
-  >("selectedCutoutStella", undefined);
+  >("facetLenghtBox", undefined);
 
-  const [selectedCrossStella, setSelectedCrossStella] = useSyncedState<string>(
-    "selectedCrossStella",
-    "0"
+  const [fioFormatBox, setFioFormatBox] = useSyncedState<number>(
+    "fioFormatBox",
+    0
   );
 
-  const [poemLenghtStella, setPoemLenghtStella] = useSyncedState<
-    number | undefined
-  >("poemLenghtStella", undefined);
+  const [selectedFioFormatBox, setSelectedFioFormatBox] =
+    useSyncedState<PriseFioFormat | null>("selectedFioFormatBox", null);
 
-  const [poemSizeStella, setPoemSizeStella] = useSyncedState<
+  const [selectedCutoutBox, setSelectedCutoutBox] = useSyncedState<
     number | undefined
-  >("poemSizeStella", undefined);
+  >("selectedCutoutBox", undefined);
 
-  const [artCheckboxStateStella, setArtCheckboxStateStella] = useSyncedState<{
+  const [poemLenghtBox, setPoemLenghtBox] = useSyncedState<
+    number | undefined
+  >("poemLenghtBox", undefined);
+
+  const [poemSizeBox, setPoemSizeBox] = useSyncedState<
+    number | undefined
+  >("poemSizeBox", undefined);
+
+  const [artCheckboxStateBox, setArtCheckboxStateBox] = useSyncedState<{
     artwork: boolean;
     fioGold: boolean;
     poemGold: boolean;
-  }>("artCheckboxStateStella", {
+  }>("artCheckboxStateBox", {
     artwork: false,
     fioGold: false,
     poemGold: false,
   });
-  const [hiderStella, setHiderStella] = useSyncedState<HiderSize>(
-    "hiderStella",
-    {
-      width: undefined,
-      height: undefined,
-    }
-  );
-  const [backsideSizeStella, setBacksideSizeStella] =
-    useSyncedState<BacksideSize>("backsideSizeStella", {
+
+  const [backsideSizeBox, setBacksideSizeBox] =
+    useSyncedState<BacksideSize>("backsideSizeBox", {
       width: undefined,
       height: undefined,
       isPhoto: false,
     });
-  const [kopirStella, setKopirStella] = useSyncedState<Kopir>("kopirStella", {
-    lenght: undefined,
-    isPolished: false,
-  });
-  const [cutoutSizeStella, setCutoutSizeStella] = useSyncedState<CutoutSize>(
-    "cutoutSizeStella",
+
+  const [cutoutSizeBox, setCutoutSizeBox] = useSyncedState<CutoutSize>(
+    "cutoutSizeBox",
     {
       width: undefined,
       height: undefined,
     }
   );
-  const [poemAddWordStella, setPoemAddWordStella] = useSyncedState<PoemAddWord>(
-    "poemAddWordStella",
+
+  const [poemAddWordBox, setPoemAddWordBox] = useSyncedState<PoemAddWord>(
+    "poemAddWordBox",
     {
       quantity: undefined,
       size: undefined,
     }
   );
-  const [fioIndSizeStella, setFioIndSizeStella] = useSyncedState<FioIndSize>(
-    "fioIndSizeStella",
+  const [fioIndSizeBox, setFioIndSizeBox] = useSyncedState<FioIndSize>(
+    "fioIndSizeBox",
     {
       width: undefined,
       height: undefined,
@@ -164,17 +123,11 @@ export default function CalcStella() {
   const [costMaterial, setCostMaterial] = useState<number>(0);
   const [costFacet, setCostFacet] = useState<number>(0);
   const [costPoem, setCostPoem] = useState<number>(0);
-  const [costHackle, setCostHackle] = useState<number>(0);
-  const [costHider, setCostHider] = useState<number>(0);
   const [costCutout, setCostCutoutSize] = useState<number>(0);
   const [costFio, setCostFio] = useState<number>(0);
-  const [costPhotoglass, setCostPhotoglass] = useState<number>(0);
-  const [costPhotokeram, setCostPhotokeram] = useState<number>(0);
   const [costPoemAddWord, setCostPoemAddWord] = useState<number>(0);
   const [costArtwork, setCostArtwork] = useState<number>(0);
   const [costBackside, setCostBackside] = useState<number>(0);
-  const [costKopir, setCostKopir] = useState<number>(0);
-  const [costCross, setCostCross] = useState<number>(0);
   const [costTotal, setCostTotal] = useState<number>(0);
 
   // подсчет итоговой стоимости
@@ -183,39 +136,27 @@ export default function CalcStella() {
       const totalCost =
         (costMaterial || 0) +
         (costFacet || 0) +
-        (costKopir || 0) +
-        (costHackle || 0) +
-        (costHider || 0) +
         (costFio || 0) +
         (costPoem || 0) +
         (costPoemAddWord || 0) +
         (costCutout || 0) +
         (costArtwork || 0) +
-        (costBackside || 0) +
-        (costPhotoglass || 0) +
-        (costPhotokeram || 0) +
-        (costCross || 0);
+        (costBackside || 0);
 
       setCostTotal(totalCost);
     } else {
-      setCostTotal(0); // Сброс суммы, если форма недействительна
+      setCostTotal(0);
     }
   }, [
     isValidForm,
     costMaterial,
     costFacet,
-    costHackle,
-    costHider,
     costFio,
     costPoem,
     costPoemAddWord,
     costCutout,
     costArtwork,
     costBackside,
-    costPhotoglass,
-    costPhotokeram,
-    costCross,
-    costKopir,
   ]);
 
   // Используем useEffect для автоматической проверки при изменении formData
@@ -227,8 +168,8 @@ export default function CalcStella() {
         formData.thickness !== undefined &&
         formData.dropdown !== null;
       setIsValidForm(isValid);
-      if (isValid && !facetLenghtStella) {
-        setFacetLenghtStella(
+      if (isValid && !facetLenghtBox) {
+        setFacetLenghtBox(
           parseFloat((formData.height! * 2 + formData.width!).toFixed(3))
         );
       }
@@ -273,11 +214,11 @@ export default function CalcStella() {
     const parsedValue = parseFloat(e.target.value);
 
     // Обновляем длину фазки
-    setFacetLenghtStella(parsedValue > 0 ? parsedValue : 0);
+    setFacetLenghtBox(parsedValue > 0 ? parsedValue : 0);
 
     // Если значение пустое или меньше либо равно 0, устанавливаем выбранный Radio в "фазка не потрібна"
     if (!parsedValue || parsedValue <= 0) {
-      setFacetSizeStella(0);
+      setFacetSizeBox(0);
     }
   };
 
@@ -288,52 +229,7 @@ export default function CalcStella() {
     const parsedValue = parseFloat(e.target.value);
 
     // Обновляем длину фазки
-    setPoemLenghtStella(parsedValue);
-  };
-
-  // Обработчик изменения поля ввода Hider ПОТАЮ
-  const handleHiderChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: keyof HiderSize
-  ) => {
-    const { value } = e.target as HTMLInputElement;
-    setHiderStella({
-      ...hiderStella,
-      [field]: parseFloat(value),
-    });
-  };
-
-  //хук для подсчета стоимости Hider ПОТАЮ
-  useEffect(() => {
-    if (hiderStella.width && hiderStella.height && priseHider) {
-      setCostHider(hiderStella.width * hiderStella.height * priseHider);
-    } else {
-      setCostHider(0);
-    }
-  }, [hiderStella.height, hiderStella.width, priseHider]);
-
-  // Обработчик изменения поля ввода размеров для  КОПІР
-  const handleKopirChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: keyof Kopir
-  ) => {
-    const { value } = e.target as HTMLInputElement;
-    setKopirStella({
-      ...kopirStella,
-      [field]: parseFloat(value),
-    });
-  };
-
-  // Обработчик изменения isPolished для  КОПІР
-  const handleKopirIsPolishedChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    field: string
-  ) => {
-    const { checked } = event.target;
-    setKopirStella((prevState) => ({
-      ...prevState,
-      [field]: checked,
-    }));
+    setPoemLenghtBox(parsedValue);
   };
 
   // Обработчик изменения поля ввода размеров для  ЗВОРОТНЯ СТОРОНА
@@ -342,22 +238,10 @@ export default function CalcStella() {
     field: keyof BacksideSize
   ) => {
     const { value } = e.target as HTMLInputElement;
-    setBacksideSizeStella({
-      ...backsideSizeStella,
+    setBacksideSizeBox({
+      ...backsideSizeBox,
       [field]: parseFloat(value),
     });
-  };
-
-  // Обработчик изменения isPhoto для  ЗВОРОТНЯ СТОРОНА
-  const handleBacksideIsPhotoChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    field: string
-  ) => {
-    const { checked } = event.target;
-    setBacksideSizeStella((prevState) => ({
-      ...prevState,
-      [field]: checked,
-    }));
   };
 
   // хук для отслеживаниия изменений в ЗВОРОТНЯ СТОРОНА
@@ -365,61 +249,37 @@ export default function CalcStella() {
     let calculatedCost = 0;
 
     if (
-      backsideSizeStella.height &&
-      backsideSizeStella.width &&
+      backsideSizeBox.height &&
+      backsideSizeBox.width &&
       priseBackside.prise &&
       priseBackside.photoKoef
     ) {
       calculatedCost =
-        backsideSizeStella.height *
-        backsideSizeStella.width *
+        backsideSizeBox.height *
+        backsideSizeBox.width *
         priseBackside.prise;
-      calculatedCost *= backsideSizeStella.isPhoto
+      calculatedCost *= backsideSizeBox.isPhoto
         ? priseBackside.photoKoef
         : 1;
     }
 
     setCostBackside(calculatedCost);
   }, [
-    backsideSizeStella.height,
-    backsideSizeStella.isPhoto,
-    backsideSizeStella.width,
+    backsideSizeBox.height,
+    backsideSizeBox.isPhoto,
+    backsideSizeBox.width,
     priseBackside.photoKoef,
     priseBackside.prise,
   ]);
 
-  // хук для отслеживаниия изменений в КОПІР
-  useEffect(() => {
-    let calculatedCost = 0;
-
-    if (
-      kopirStella.lenght &&
-      priseKopir.prise &&
-      priseKopir.polishedKoef &&
-      formData.thickness
-    ) {
-      calculatedCost =
-        kopirStella.lenght * formData.thickness * priseKopir.prise;
-      calculatedCost *= kopirStella.isPolished ? priseKopir.polishedKoef : 1;
-    }
-
-    setCostKopir(calculatedCost);
-  }, [
-    formData.thickness,
-    kopirStella.isPolished,
-    kopirStella.lenght,
-    priseKopir.polishedKoef,
-    priseKopir.prise,
-  ]);
-
-  // Обработчик изменения поля ввода ВИРІЗКА
+   // Обработчик изменения поля ввода ВИРІЗКА
   const handleCutoutChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: keyof CutoutSize
   ) => {
     const { value } = e.target as HTMLInputElement;
-    setCutoutSizeStella({
-      ...cutoutSizeStella,
+    setCutoutSizeBox({
+      ...cutoutSizeBox,
       [field]: parseFloat(value),
     });
   };
@@ -430,30 +290,20 @@ export default function CalcStella() {
     field: keyof PoemAddWord
   ) => {
     const { value } = e.target as HTMLInputElement;
-    setPoemAddWordStella({
-      ...poemAddWordStella,
+    setPoemAddWordBox({
+      ...poemAddWordBox,
       [field]: parseFloat(value),
     });
   };
   useEffect(() => {
-    if (poemAddWordStella.quantity && poemAddWordStella.size) {
+    if (poemAddWordBox.quantity && poemAddWordBox.size) {
       setCostPoemAddWord(
-        poemAddWordStella.quantity * poemAddWordStella.size * prisePoemAddWord
+        poemAddWordBox.quantity * poemAddWordBox.size * prisePoemAddWord
       );
     } else {
       setCostPoemAddWord(0);
     }
-  }, [poemAddWordStella.quantity, poemAddWordStella.size, prisePoemAddWord]);
-
-  // Обработчик изменения поля ввода пір'я
-  useEffect(() => {
-    if (hackleStella) {
-      const calcCost = hackleStella * priseHackle; // Расчет стоимости
-      setCostHackle(calcCost); // Обновляем стоимость
-    } else {
-      setCostHackle(0);
-    }
-  }, [hackleStella, priseHackle]);
+  }, [poemAddWordBox.quantity, poemAddWordBox.size, prisePoemAddWord]);
 
   // Обработчик выбора материала из выпадающего списка
   const handleDropdownChange = (selectedMaterial: Material | null) => {
@@ -467,12 +317,12 @@ export default function CalcStella() {
   useEffect(() => {
     let calculatedCostFacet = 0;
 
-    switch (facetSizeStella) {
+    switch (facetSizeBox) {
       case 1:
-        calculatedCostFacet = facetLenghtStella! * priseFacet.first!;
+        calculatedCostFacet = facetLenghtBox! * priseFacet.first!;
         break;
       case 2:
-        calculatedCostFacet = facetLenghtStella! * priseFacet.second!;
+        calculatedCostFacet = facetLenghtBox! * priseFacet.second!;
         break;
       case 3:
         calculatedCostFacet =
@@ -483,30 +333,30 @@ export default function CalcStella() {
     }
 
     setCostFacet(calculatedCostFacet);
-  }, [formData, facetSizeStella, priseFacet, facetLenghtStella]);
+  }, [formData, facetSizeBox, priseFacet, facetLenghtBox]);
 
   // Обработчик изменения радиокнопок ВИРІЗКА и размеров и задаем стоимость
   useEffect(() => {
     let calculatedCost = 0;
 
     if (
-      selectedCutoutStella &&
-      cutoutSizeStella.height &&
-      cutoutSizeStella.width &&
+      selectedCutoutBox &&
+      cutoutSizeBox.height &&
+      cutoutSizeBox.width &&
       priseCutout.flower &&
       priseCutout.other
     ) {
-      switch (selectedCutoutStella) {
+      switch (selectedCutoutBox) {
         case 1:
           calculatedCost =
-            cutoutSizeStella.height *
-            cutoutSizeStella.width *
+            cutoutSizeBox.height *
+            cutoutSizeBox.width *
             priseCutout.flower;
           break;
         case 2:
           calculatedCost =
-            cutoutSizeStella.height *
-            cutoutSizeStella.width *
+            cutoutSizeBox.height *
+            cutoutSizeBox.width *
             priseCutout.other;
           break;
         default:
@@ -518,11 +368,11 @@ export default function CalcStella() {
       setCostCutoutSize(0);
     }
   }, [
-    cutoutSizeStella.height,
-    cutoutSizeStella.width,
+    cutoutSizeBox.height,
+    cutoutSizeBox.width,
     priseCutout.flower,
     priseCutout.other,
-    selectedCutoutStella,
+    selectedCutoutBox,
   ]);
 
   // Обработчик изменения радиокнопок фазки
@@ -530,7 +380,7 @@ export default function CalcStella() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const selected = parseInt(event.target.value);
-    setFacetSizeStella(selected);
+    setFacetSizeBox(selected);
   };
 
   // Обработчик изменения радиокнопок ВІРШ
@@ -538,26 +388,26 @@ export default function CalcStella() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const selected = parseInt(event.target.value);
-    setPoemSizeStella(selected);
+    setPoemSizeBox(selected);
     
   };
 
   // Обработчик изменения радиокнопок ВИРІЗКА
   const handleRadioCutout = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = parseInt(event.target.value);
-    setSelectedCutoutStella(selected);
+    setSelectedCutoutBox(selected);
   };
 
   // Обработчик изменения радиокнопок ВІРШ и задаем стоимость
   useEffect(() => {
     let calculatedCost = 0;
 
-    switch (poemSizeStella) {
+    switch (poemSizeBox) {
       case 1:
-        calculatedCost = poemLenghtStella! * prisePoem.first!;
+        calculatedCost = poemLenghtBox! * prisePoem.first!;
         break;
       case 2:
-        calculatedCost = poemLenghtStella! * prisePoem.second!;
+        calculatedCost = poemLenghtBox! * prisePoem.second!;
         break;
 
       default:
@@ -565,76 +415,37 @@ export default function CalcStella() {
     }
 
     setCostPoem(calculatedCost);
-  }, [poemLenghtStella, poemSizeStella, prisePoem.first, prisePoem.second]);
+  }, [poemLenghtBox, poemSizeBox, prisePoem.first, prisePoem.second]);
 
   // Обработчик выбора радиокнопки ФИО
   const handleRadioFioTypeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFioFormatStella(parseInt(event.target.value));
+    setFioFormatBox(parseInt(event.target.value));
   };
-
-  // Обработчик выбора из Autocomplete ФОТОСКЛО
-  const handleAutocompletePhotoglassFormatChange = (
-    _: React.SyntheticEvent,
-    newValue: PrisePhotoglassFormat | null
-  ) => {
-    setSelectedPhotoglassFormatStella(newValue);
-
-
-  };
-  useEffect(() => {
-    if (selectedPhotoglassFormatStella && selectedPhotoglassFormatStella.prise) {
-      setCostPhotoglass(selectedPhotoglassFormatStella.prise);
-    } else {
-      setCostPhotoglass(0);
-    }
-  }, [selectedPhotoglassFormatStella]);
-
-
-  // Обработчик выбора из Autocomplete ФОТОКЕРАМІКА
-  const handleAutocompletePhotokeramFormatChange = (
-    _: React.SyntheticEvent,
-    newValue: PrisePhotokeramFormat | null
-  ) => {
-    setSelectedPhotokeramFormatStella(newValue);
-
-    if (newValue?.prise) {
-      setCostPhotokeram(newValue.prise);
-    } else {
-      setCostPhotokeram(0);
-    }
-  };
-  useEffect(() => {
-    if (selectedPhotokeramFormatStella && selectedPhotokeramFormatStella.prise) {
-      setCostPhotokeram(selectedPhotokeramFormatStella.prise);
-    } else {
-      setCostPhotokeram(0);
-    }
-  }, [selectedPhotokeramFormatStella]);
 
   // Обработчик выбора из Autocomplete ФИО
   const handleAutocompleteFioFormatChange = (
     _: React.SyntheticEvent,
     newValue: PriseFioFormat | null
   ) => {
-    setSelectedFioFormatStella(newValue);
+    setSelectedFioFormatBox(newValue);
   };
   useEffect(() => {
     if (
-      fioFormatStella == 0 &&
-      selectedFioFormatStella &&
-      selectedFioFormatStella.prise
+      fioFormatBox == 0 &&
+      selectedFioFormatBox &&
+      selectedFioFormatBox.prise
     ) {
-      setCostFio(selectedFioFormatStella.prise);
+      setCostFio(selectedFioFormatBox.prise);
     }
     if (
-      fioFormatStella == 0 &&
-      (!selectedFioFormatStella || !selectedFioFormatStella.prise)
+      fioFormatBox == 0 &&
+      (!selectedFioFormatBox || !selectedFioFormatBox.prise)
     ) {
       setCostFio(0);
     }
-  }, [fioFormatStella, selectedFioFormatStella]);
+  }, [fioFormatBox, selectedFioFormatBox]);
 
   // Обработчик изменения поля ввода FIO IndSize
   const handleFioIndSizeChange = (
@@ -642,32 +453,32 @@ export default function CalcStella() {
     field: keyof FioIndSize
   ) => {
     const { value } = e.target as HTMLInputElement;
-    setFioIndSizeStella({
-      ...fioIndSizeStella,
+    setFioIndSizeBox({
+      ...fioIndSizeBox,
       [field]: parseFloat(value),
     });
   };
   useEffect(() => {
     if (
-      fioFormatStella == 1 &&
-      fioIndSizeStella.height &&
-      fioIndSizeStella.width &&
+      fioFormatBox == 1 &&
+      fioIndSizeBox.height &&
+      fioIndSizeBox.width &&
       priseFioIndivid
     ) {
       setCostFio(
-        fioIndSizeStella.height * fioIndSizeStella.width * priseFioIndivid
+        fioIndSizeBox.height * fioIndSizeBox.width * priseFioIndivid
       );
     }
     if (
-      fioFormatStella == 1 &&
-      (!fioIndSizeStella.height || !fioIndSizeStella.width || !priseFioIndivid)
+      fioFormatBox == 1 &&
+      (!fioIndSizeBox.height || !fioIndSizeBox.width || !priseFioIndivid)
     ) {
       setCostFio(0);
     }
   }, [
-    fioFormatStella,
-    fioIndSizeStella.height,
-    fioIndSizeStella.width,
+    fioFormatBox,
+    fioIndSizeBox.height,
+    fioIndSizeBox.width,
     priseFioIndivid,
   ]);
 
@@ -676,7 +487,7 @@ export default function CalcStella() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, checked } = event.target;
-    setArtCheckboxStateStella((prevState) => ({
+    setArtCheckboxStateBox((prevState) => ({
       ...prevState,
       [name]: checked,
     }));
@@ -684,31 +495,16 @@ export default function CalcStella() {
 
   // Хук для пересчета стоимости ХУДОЖКА
   useEffect(() => {
-    let cost = priseArtwork.portrait! + priseArtwork.fio! + priseArtwork.poem!;
+    let cost = priseArtwork.fio! + priseArtwork.poem!;
 
-    if (artCheckboxStateStella.artwork) {
-      cost += artCheckboxStateStella.fioGold ? priseArtwork.fioGold! : 0;
-      cost += artCheckboxStateStella.poemGold ? priseArtwork.poemGold! : 0;
+    if (artCheckboxStateBox.artwork) {
+      cost += artCheckboxStateBox.fioGold ? priseArtwork.fioGold! : 0;
+      cost += artCheckboxStateBox.poemGold ? priseArtwork.poemGold! : 0;
       setCostArtwork(cost);
     } else {
       setCostArtwork(0);
     }
-  }, [artCheckboxStateStella, priseArtwork]);
-
-  // Обработчик изменения выбора для ХРЕСТ ЛАТУННИЙ
-  const handleCrossChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedValue = event.target.value;
-    setSelectedCrossStella(selectedValue);
-  };
-  useEffect(() => {
-    if (selectedCrossStella === "0") {
-      setCostCross(0);
-    } else {
-      const selectedPrise =
-        priseCross.find((item) => item.size === selectedCrossStella)?.prise || 0;
-      setCostCross(selectedPrise);
-    }
-  }, [priseCross, selectedCrossStella]);
+  }, [artCheckboxStateBox, priseArtwork]);
 
   return (
     <>
@@ -819,7 +615,7 @@ export default function CalcStella() {
                 variant="standard"
                 type="number"
                 value={
-                  facetLenghtStella ??
+                  facetLenghtBox ??
                   (formData.height! * 2 + formData.width!).toFixed(3)
                 }
                 onChange={(e) => handleChangeFacet(e)}
@@ -829,7 +625,7 @@ export default function CalcStella() {
 
               <RadioGroup
                 aria-labelledby="radio-buttons-group-facet"
-                value={facetSizeStella}
+                value={facetSizeBox}
                 onChange={handleRadioFacetChange}
                 name="radio-buttons-group-facet"
               >
@@ -844,8 +640,8 @@ export default function CalcStella() {
                     <Radio
                       disabled={
                         !isValidForm ||
-                        !facetLenghtStella ||
-                        facetLenghtStella <= 0
+                        !facetLenghtBox ||
+                        facetLenghtBox <= 0
                       }
                     />
                   }
@@ -858,8 +654,8 @@ export default function CalcStella() {
                     <Radio
                       disabled={
                         !isValidForm ||
-                        !facetLenghtStella ||
-                        facetLenghtStella <= 0
+                        !facetLenghtBox ||
+                        facetLenghtBox <= 0
                       }
                     />
                   }
@@ -872,8 +668,8 @@ export default function CalcStella() {
                     <Radio
                       disabled={
                         !isValidForm ||
-                        !facetLenghtStella ||
-                        facetLenghtStella <= 0
+                        !facetLenghtBox ||
+                        facetLenghtBox <= 0
                       }
                     />
                   }
@@ -884,158 +680,14 @@ export default function CalcStella() {
             </FormControl>
           </div>
           <div className={css.rightSide}>
-            {facetSizeStella > 0 && facetLenghtStella && isValidForm ? (
+            {facetSizeBox > 0 && facetLenghtBox && isValidForm ? (
               <div className={css.textResult}>
                 <p>
-                  Врахована довжина фаски: {facetLenghtStella.toFixed(2)} м.п.
+                  Врахована довжина фаски: {facetLenghtBox.toFixed(2)} м.п.
                 </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
                   {Number(costFacet.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   КОПІР */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <FormLabel id="kopir">Задайте розмір для копіру:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="kopir-lenght"
-                  label="Довжина, м"
-                  variant="standard"
-                  type="number"
-                  value={kopirStella.lenght || undefined}
-                  onChange={(e) => handleKopirChange(e, "lenght")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "200px" }}
-                />
-              </div>
-              <p className={css.secondaryText}>
-                Ціна: {priseKopir.prise} грн. за м²
-              </p>
-              <FormControlLabel
-                disabled={!isValidForm || !kopirStella.lenght}
-                control={
-                  <Checkbox
-                    name="kopir-polished"
-                    checked={kopirStella.isPolished}
-                    onChange={(e) =>
-                      handleKopirIsPolishedChange(e, "isPolished")
-                    }
-                  />
-                }
-                label={`Полірування (ціна множиться на ${priseKopir.polishedKoef})`}
-              />
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {kopirStella.lenght && formData.thickness && isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа копіру:{" "}
-                  {kopirStella.lenght * formData.thickness} м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costKopir.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                            --------------------------  ПІР'Я  */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div className={css.hackle}>
-              <FormLabel id="hackle">Задайте довжину пір'я:</FormLabel>
-              <br />
-
-              <TextField
-                id="hackle"
-                label="Довжина, м.п."
-                variant="standard"
-                type="number"
-                value={hackleStella || undefined}
-                onChange={(e) => setHackleStella(parseFloat(e.target.value))}
-                margin="dense"
-                disabled={!isValidForm}
-              />
-              <p className={css.secondaryText}>
-                Ціна: {priseHackle} грн. за м.п.
-              </p>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {hackleStella && hackleStella > 0 && isValidForm ? (
-              <div className={css.textResult}>
-                <p>Загальна довжина пір'я: {hackleStella} м.п.</p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costHackle.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                            --------------------------   ПОТАЙ  */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <FormLabel id="hackle">Задайте розміри для потаю:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="hide-height"
-                  label="Висота, м"
-                  variant="standard"
-                  type="number"
-                  value={hiderStella.height || undefined}
-                  onChange={(e) => handleHiderChange(e, "height")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
-                <TextField
-                  id="hide-width"
-                  label="Ширина, м"
-                  variant="standard"
-                  type="number"
-                  value={hiderStella.width || undefined}
-                  onChange={(e) => handleHiderChange(e, "width")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-              </div>
-              <p className={css.secondaryText}>Ціна: {priseHider} грн. за м²</p>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {hiderStella.height && hiderStella.width && isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа потаю: {hiderStella.height * hiderStella.width}{" "}
-                  м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costHider.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               </div>
             ) : (
@@ -1056,7 +708,7 @@ export default function CalcStella() {
                 </FormLabel>
                 <RadioGroup
                   aria-labelledby="radio-buttons-group-fio"
-                  value={fioFormatStella}
+                  value={fioFormatBox}
                   onChange={handleRadioFioTypeChange}
                   name="radio-buttons-group-fio"
                 >
@@ -1078,10 +730,10 @@ export default function CalcStella() {
                       getOptionLabel={(option) =>
                         option.size + " - " + option.prise + "грн." || ""
                       }
-                      value={selectedFioFormatStella}
+                      value={selectedFioFormatBox}
                       onChange={handleAutocompleteFioFormatChange}
                       sx={{ width: 300 }}
-                      disabled={!isValidForm || fioFormatStella == 1}
+                      disabled={!isValidForm || fioFormatBox == 1}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -1116,10 +768,10 @@ export default function CalcStella() {
                         label="Висота, м"
                         variant="standard"
                         type="number"
-                        value={fioIndSizeStella.height || undefined}
+                        value={fioIndSizeBox.height || undefined}
                         onChange={(e) => handleFioIndSizeChange(e, "height")}
                         margin="dense"
-                        disabled={!isValidForm || fioFormatStella == 0}
+                        disabled={!isValidForm || fioFormatBox == 0}
                         style={{ width: "100px" }}
                       />
                       <p>x</p>
@@ -1128,10 +780,10 @@ export default function CalcStella() {
                         label="Ширина, м"
                         variant="standard"
                         type="number"
-                        value={fioIndSizeStella.width || undefined}
+                        value={fioIndSizeBox.width || undefined}
                         onChange={(e) => handleFioIndSizeChange(e, "width")}
                         margin="dense"
-                        disabled={!isValidForm || fioFormatStella == 0}
+                        disabled={!isValidForm || fioFormatBox == 0}
                         style={{ width: "100px" }}
                       />
                     </div>
@@ -1144,11 +796,11 @@ export default function CalcStella() {
             </div>
           </div>
           <div className={css.rightSide}>
-            {fioFormatStella == 0 &&
-            selectedFioFormatStella?.prise &&
+            {fioFormatBox == 0 &&
+            selectedFioFormatBox?.prise &&
             isValidForm ? (
               <div className={css.textResult}>
-                <p>Розмір надпису: {selectedFioFormatStella.size}</p>
+                <p>Розмір надпису: {selectedFioFormatBox.size}</p>
                 <p className={css.textCost}>
                   Вартість: {Number(costFio.toFixed(2)).toLocaleString("ru-RU")}{" "}
                   грн.
@@ -1157,14 +809,14 @@ export default function CalcStella() {
             ) : (
               <p> </p>
             )}
-            {fioFormatStella == 1 &&
-            fioIndSizeStella.height &&
-            fioIndSizeStella.width &&
+            {fioFormatBox == 1 &&
+            fioIndSizeBox.height &&
+            fioIndSizeBox.width &&
             isValidForm ? (
               <div className={css.textResult}>
                 <p>
                   Загальна площа надпису:{" "}
-                  {fioIndSizeStella.height * fioIndSizeStella.width} м²
+                  {fioIndSizeBox.height * fioIndSizeBox.width} м²
                 </p>
                 <p className={css.textCost}>
                   Вартість: {Number(costFio.toFixed(2)).toLocaleString("ru-RU")}{" "}
@@ -1193,7 +845,7 @@ export default function CalcStella() {
                   label="кількість слів"
                   variant="standard"
                   type="number"
-                  value={poemLenghtStella || undefined}
+                  value={poemLenghtBox || undefined}
                   onChange={(e) => handleChangePoem(e)}
                   margin="dense"
                   disabled={!isValidForm}
@@ -1201,7 +853,7 @@ export default function CalcStella() {
 
                 <RadioGroup
                   aria-labelledby="radio-buttons-group-poem"
-                  value={poemSizeStella}
+                  value={poemSizeBox}
                   onChange={handleRadioPoemChange}
                   name="radio-buttons-group-poem"
                 >
@@ -1211,8 +863,8 @@ export default function CalcStella() {
                       <Radio
                         disabled={
                           !isValidForm ||
-                          !poemLenghtStella ||
-                          poemLenghtStella <= 0
+                          !poemLenghtBox ||
+                          poemLenghtBox <= 0
                         }
                       />
                     }
@@ -1225,8 +877,8 @@ export default function CalcStella() {
                       <Radio
                         disabled={
                           !isValidForm ||
-                          !poemLenghtStella ||
-                          poemLenghtStella <= 0
+                          !poemLenghtBox ||
+                          poemLenghtBox <= 0
                         }
                       />
                     }
@@ -1237,7 +889,7 @@ export default function CalcStella() {
               </FormControl>
             </div>
             <div className={css.rightSide}>
-              {poemSizeStella && poemLenghtStella && isValidForm ? (
+              {poemSizeBox && poemLenghtBox && isValidForm ? (
                 <div className={css.textResult}>
                   <p className={css.textCost}>
                     Вартість віршу:{" "}
@@ -1265,7 +917,7 @@ export default function CalcStella() {
                     label="Висота букв, см"
                     variant="standard"
                     type="number"
-                    value={poemAddWordStella.size || undefined}
+                    value={poemAddWordBox.size || undefined}
                     onChange={(e) => handlePoemAddWordChange(e, "size")}
                     margin="dense"
                     disabled={!isValidForm}
@@ -1276,7 +928,7 @@ export default function CalcStella() {
                     label="Кількість букв"
                     variant="standard"
                     type="number"
-                    value={poemAddWordStella.quantity || undefined}
+                    value={poemAddWordBox.quantity || undefined}
                     onChange={(e) => handlePoemAddWordChange(e, "quantity")}
                     margin="dense"
                     disabled={!isValidForm}
@@ -1288,8 +940,8 @@ export default function CalcStella() {
               </div>
             </div>
             <div className={css.rightSide}>
-              {poemAddWordStella.size &&
-              poemAddWordStella.quantity &&
+              {poemAddWordBox.size &&
+              poemAddWordBox.quantity &&
               isValidForm ? (
                 <div className={css.textResult}>
                   <p className={css.textCost}>
@@ -1317,7 +969,7 @@ export default function CalcStella() {
                   label="Висота, м"
                   variant="standard"
                   type="number"
-                  value={cutoutSizeStella.height || ""}
+                  value={cutoutSizeBox.height || ""}
                   onChange={(e) => handleCutoutChange(e, "height")}
                   margin="dense"
                   disabled={!isValidForm}
@@ -1329,7 +981,7 @@ export default function CalcStella() {
                   label="Ширина, м"
                   variant="standard"
                   type="number"
-                  value={cutoutSizeStella.width || ""}
+                  value={cutoutSizeBox.width || ""}
                   onChange={(e) => handleCutoutChange(e, "width")}
                   margin="dense"
                   disabled={!isValidForm}
@@ -1338,7 +990,7 @@ export default function CalcStella() {
               </div>
               <RadioGroup
                 aria-labelledby="radio-buttons-group-cutout"
-                value={selectedCutoutStella}
+                value={selectedCutoutBox}
                 onChange={handleRadioCutout}
                 name="radio-buttons-group-cutout"
               >
@@ -1348,8 +1000,8 @@ export default function CalcStella() {
                     <Radio
                       disabled={
                         !isValidForm ||
-                        !cutoutSizeStella.height ||
-                        !cutoutSizeStella.width
+                        !cutoutSizeBox.height ||
+                        !cutoutSizeBox.width
                       }
                     />
                   }
@@ -1362,8 +1014,8 @@ export default function CalcStella() {
                     <Radio
                       disabled={
                         !isValidForm ||
-                        !cutoutSizeStella.height ||
-                        !cutoutSizeStella.width
+                        !cutoutSizeBox.height ||
+                        !cutoutSizeBox.width
                       }
                     />
                   }
@@ -1374,14 +1026,14 @@ export default function CalcStella() {
             </div>
           </div>
           <div className={css.rightSide}>
-            {cutoutSizeStella.height &&
-            cutoutSizeStella.width &&
-            selectedCutoutStella &&
+            {cutoutSizeBox.height &&
+            cutoutSizeBox.width &&
+            selectedCutoutBox &&
             isValidForm ? (
               <div className={css.textResult}>
                 <p>
                   Загальна площа вирізки:{" "}
-                  {cutoutSizeStella.height * cutoutSizeStella.width} м²
+                  {cutoutSizeBox.height * cutoutSizeBox.width} м²
                 </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
@@ -1404,14 +1056,13 @@ export default function CalcStella() {
                   control={
                     <Checkbox
                       name="artwork"
-                      checked={artCheckboxStateStella.artwork}
+                      checked={artCheckboxStateBox.artwork}
                       onChange={handleArtCheckboxChange}
                     />
                   }
                   label="Художня робота:"
                 />
                 <div className={css.artwork}>
-                  <p>➤ Портрет ({priseArtwork.portrait} грн.)</p>
                   <p>
                     ➤ Прізвище, ім'я та по-батькові ({priseArtwork.fio} грн.)
                   </p>
@@ -1421,12 +1072,12 @@ export default function CalcStella() {
                       <Checkbox
                         size="small"
                         name="fioGold"
-                        checked={artCheckboxStateStella.fioGold}
+                        checked={artCheckboxStateBox.fioGold}
                         onChange={handleArtCheckboxChange}
                       />
                     }
                     label={`з позолотою  (додатково +${priseArtwork.fioGold} грн.)`}
-                    disabled={!artCheckboxStateStella.artwork}
+                    disabled={!artCheckboxStateBox.artwork}
                   />
                   <p>➤ Вірш ({priseArtwork.poem} грн.)</p>
                   <FormControlLabel
@@ -1435,19 +1086,19 @@ export default function CalcStella() {
                       <Checkbox
                         size="small"
                         name="poemGold"
-                        checked={artCheckboxStateStella.poemGold}
+                        checked={artCheckboxStateBox.poemGold}
                         onChange={handleArtCheckboxChange}
                       />
                     }
                     label={`з позолотою  (додатково +${priseArtwork.poemGold} грн.)`}
-                    disabled={!artCheckboxStateStella.artwork}
+                    disabled={!artCheckboxStateBox.artwork}
                   />
                 </div>
               </FormGroup>
             </div>
           </div>
           <div className={css.rightSide}>
-            {artCheckboxStateStella.artwork && isValidForm ? (
+            {artCheckboxStateBox.artwork && isValidForm ? (
               <div className={css.textResult}>
                 <p className={css.textCost}>
                   Загальна вартість:{" "}
@@ -1474,7 +1125,7 @@ export default function CalcStella() {
                   label="Висота, м"
                   variant="standard"
                   type="number"
-                  value={backsideSizeStella.height || undefined}
+                  value={backsideSizeBox.height || undefined}
                   onChange={(e) => handleBacksideChange(e, "height")}
                   margin="dense"
                   disabled={!isValidForm}
@@ -1486,7 +1137,7 @@ export default function CalcStella() {
                   label="Ширина, м"
                   variant="standard"
                   type="number"
-                  value={backsideSizeStella.width || undefined}
+                  value={backsideSizeBox.width || undefined}
                   onChange={(e) => handleBacksideChange(e, "width")}
                   margin="dense"
                   disabled={!isValidForm}
@@ -1496,168 +1147,20 @@ export default function CalcStella() {
               <p className={css.secondaryText}>
                 Ціна: {priseBackside.prise} грн. за м²
               </p>
-              <FormControlLabel
-                disabled={
-                  !isValidForm ||
-                  !backsideSizeStella.height ||
-                  !backsideSizeStella.width
-                }
-                control={
-                  <Checkbox
-                    name="backside-photo"
-                    checked={backsideSizeStella.isPhoto}
-                    onChange={(e) => handleBacksideIsPhotoChange(e, "isPhoto")}
-                  />
-                }
-                label={`Фото  (ціна множиться на ${priseBackside.photoKoef})`}
-              />
             </div>
           </div>
           <div className={css.rightSide}>
-            {backsideSizeStella.height &&
-            backsideSizeStella.width &&
+            {backsideSizeBox.height &&
+            backsideSizeBox.width &&
             isValidForm ? (
               <div className={css.textResult}>
                 <p>
                   Загальна площа малюнку:{" "}
-                  {backsideSizeStella.height * backsideSizeStella.width} м²
+                  {backsideSizeBox.height * backsideSizeBox.width} м²
                 </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
                   {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ФОТОСКЛО */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <p>Фотоскло </p>
-              <hr /> <br />
-              <Autocomplete
-                disablePortal
-                options={prisePhotoglassFormat}
-                getOptionLabel={(option) =>
-                  option.size + " - " + option.prise + "грн." || ""
-                }
-                value={selectedPhotoglassFormatStella}
-                onChange={handleAutocompletePhotoglassFormatChange}
-                sx={{ width: 300 }}
-                disabled={!isValidForm}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Оберіть потрібний формат"
-                    variant="standard"
-                  />
-                )}
-              />
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {selectedPhotoglassFormatStella && isValidForm ? (
-              <div className={css.textResult}>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costPhotoglass.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ФОТОКЕРАМІКА */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <p>Фотокераміка </p>
-              <hr /> <br />
-              <Autocomplete
-                disablePortal
-                options={prisePhotokeramFormat}
-                getOptionLabel={(option) =>
-                  option.size + " - " + option.prise + "грн." || ""
-                }
-                value={selectedPhotokeramFormatStella}
-                onChange={handleAutocompletePhotokeramFormatChange}
-                sx={{ width: 300 }}
-                disabled={!isValidForm}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Оберіть потрібний формат"
-                    variant="standard"
-                  />
-                )}
-              />
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {selectedPhotokeramFormatStella && isValidForm ? (
-              <div className={css.textResult}>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costPhotokeram.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ХРЕСТИК ЛАТУННИЙ */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <p>Хрестик латунний </p>
-              <hr /> <br />
-              <FormControl>
-                <FormLabel id="radio-buttons-group-cross">
-                  Оберіть рорзмір:
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="radio-buttons-group-cross"
-                  value={selectedCrossStella}
-                  name="radio-buttons-group"
-                  onChange={handleCrossChange}
-                >
-                  <FormControlLabel
-                    value="0"
-                    control={<Radio disabled={!isValidForm} />}
-                    label="Не потрібно"
-                  />
-
-                  {priseCross.map((item) => (
-                    <FormControlLabel
-                      key={item.size}
-                      value={item.size!}
-                      control={<Radio disabled={!isValidForm} />}
-                      label={`${item.size} (${item.prise?.toLocaleString(
-                        "ru-RU"
-                      )} грн.)`}
-                      sx={{ marginLeft: "20px" }}
-                    />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {isValidForm && selectedCrossStella != "0" ? (
-              <div className={css.textResult}>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costCross.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               </div>
             ) : (
@@ -1673,7 +1176,7 @@ export default function CalcStella() {
               aria-controls="panel1-content"
               id="panel1-header"
             >
-              Загальна вартість стели:{" "}
+              Загальна вартість тумбочки:{" "}
               <b>{Number(costTotal.toFixed(2)).toLocaleString("ru-RU")} грн.</b>
             </AccordionSummary>
             <AccordionDetails>
@@ -1689,33 +1192,6 @@ export default function CalcStella() {
               {costFacet && isValidForm ? (
                 <p className={css.textCost}>
                   Фазка: {Number(costFacet.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costKopir && isValidForm ? (
-                <p className={css.textCost}>
-                  Копір: {Number(costKopir.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costHackle && isValidForm ? (
-                <p className={css.textCost}>
-                  Пір'я: {Number(costHackle.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costHider && isValidForm ? (
-                <p className={css.textCost}>
-                  Потай: {Number(costHider.toFixed(2)).toLocaleString("ru-RU")}{" "}
                   грн.
                 </p>
               ) : (
@@ -1777,34 +1253,6 @@ export default function CalcStella() {
                 <p> </p>
               )}
 
-              {costPhotoglass && isValidForm ? (
-                <p className={css.textCost}>
-                  Фотоскло:{" "}
-                  {Number(costPhotoglass.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costPhotokeram && isValidForm ? (
-                <p className={css.textCost}>
-                  Фотокераміка:{" "}
-                  {Number(costPhotokeram.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costCross && isValidForm ? (
-                <p className={css.textCost}>
-                  Хрестик латунний:{" "}
-                  {Number(costCross.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
             </AccordionDetails>
           </Accordion>
         </div>

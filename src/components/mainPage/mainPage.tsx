@@ -4,6 +4,8 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import CalcStella from "../calcStella/CalcStella";
+import CalcBox from "../calcBox/CalcBox";
+import CalcShelf from "../calcShelf/CalcShelf";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -55,26 +57,28 @@ export default function BasicTabs() {
               variant="scrollable"
             >
               <Tab label="Стела" {...a11yProps(0)} />
-              <Tab label="Надгробна плита" {...a11yProps(1)} />
-              <Tab label="Квітник" {...a11yProps(2)} />
-              <Tab label="Плитка горизонтальна" {...a11yProps(3)} />
-              <Tab label="Плитка вертикальна" {...a11yProps(4)} />
-              <Tab label="Вугли" {...a11yProps(5)} />
-              <Tab label="Хрест" {...a11yProps(6)} />
-              <Tab label="Точені вироби" {...a11yProps(7)} />
-              <Tab label="Площадка" {...a11yProps(8)} />
-              <Tab label="Стіл та лавки" {...a11yProps(9)} />
-              <Tab label="Заборчик" {...a11yProps(10)} />
+              <Tab label="Тумбочка" {...a11yProps(1)} />
+              <Tab label="Полка" {...a11yProps(2)} />
+              <Tab label="Надгробна плита" {...a11yProps(3)} />
+              <Tab label="Квітник" {...a11yProps(4)} />
+              <Tab label="Плитка горизонтальна" {...a11yProps(5)} />
+              <Tab label="Плитка вертикальна" {...a11yProps(6)} />
+              <Tab label="Вугли" {...a11yProps(7)} />
+              <Tab label="Хрест" {...a11yProps(8)} />
+              <Tab label="Точені вироби" {...a11yProps(9)} />
+              <Tab label="Площадка" {...a11yProps(10)} />
+              <Tab label="Стіл та лавки" {...a11yProps(11)} />
+              <Tab label="Заборчик" {...a11yProps(12)} />
             </Tabs>
           </Box>
           <AdminPanel value={value} index={0}>
             <CalcStella/>
           </AdminPanel>
           <AdminPanel value={value} index={1}>
-            In progress...
+            <CalcBox />
           </AdminPanel>
           <AdminPanel value={value} index={2}>
-            In progress...
+            <CalcShelf />
           </AdminPanel>
           <AdminPanel value={value} index={3}>
             In progress...
@@ -98,6 +102,12 @@ export default function BasicTabs() {
             In progress...
           </AdminPanel>
           <AdminPanel value={value} index={10}>
+            In progress...
+          </AdminPanel>
+          <AdminPanel value={value} index={11}>
+            In progress...
+          </AdminPanel>
+          <AdminPanel value={value} index={12}>
             In progress...
           </AdminPanel>
         </Box>
