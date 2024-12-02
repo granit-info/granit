@@ -58,17 +58,20 @@ export default function BasicTabs() {
             >
               <Tab label="Стела" {...a11yProps(0)} />
               <Tab label="Тумбочка" {...a11yProps(1)} />
-              <Tab label="Полка" {...a11yProps(2)} />
-              <Tab label="Надгробна плита" {...a11yProps(3)} />
-              <Tab label="Квітник" {...a11yProps(4)} />
-              <Tab label="Плитка горизонтальна" {...a11yProps(5)} />
-              <Tab label="Плитка вертикальна" {...a11yProps(6)} />
-              <Tab label="Вугли" {...a11yProps(7)} />
-              <Tab label="Хрест" {...a11yProps(8)} />
-              <Tab label="Точені вироби" {...a11yProps(9)} />
-              <Tab label="Площадка" {...a11yProps(10)} />
-              <Tab label="Стіл та лавки" {...a11yProps(11)} />
-              <Tab label="Заборчик" {...a11yProps(12)} />
+              <Tab label="Квітник" {...a11yProps(2)} />
+              <Tab label="Хрест" {...a11yProps(3)} />
+              <Tab label="Ваза" {...a11yProps(4)} />
+              <Tab label="Лампадка" {...a11yProps(5)} />
+              <Tab label="Надгробна плита" {...a11yProps(6)} />
+              <Tab label="Плитка горизонтальна" {...a11yProps(7)} />
+              <Tab label="Плитка вертикальна" {...a11yProps(8)} />
+              <Tab label="Полка" {...a11yProps(9)} />
+              <Tab label="Вугли" {...a11yProps(10)} />
+              <Tab label="Точені вироби" {...a11yProps(11)} />
+              <Tab label="Площадка" {...a11yProps(12)} />
+              <Tab label="Стіл" {...a11yProps(13)} />
+              <Tab label="Лавка" {...a11yProps(14)} />
+              <Tab label="Заборчик" {...a11yProps(15)} />
             </Tabs>
           </Box>
           <AdminPanel value={value} index={0}>
@@ -78,7 +81,7 @@ export default function BasicTabs() {
             <CalcBox />
           </AdminPanel>
           <AdminPanel value={value} index={2}>
-            <CalcShelf />
+          In progress...
           </AdminPanel>
           <AdminPanel value={value} index={3}>
             In progress...
@@ -99,7 +102,7 @@ export default function BasicTabs() {
             In progress...
           </AdminPanel>
           <AdminPanel value={value} index={9}>
-            In progress...
+            <CalcShelf />
           </AdminPanel>
           <AdminPanel value={value} index={10}>
             In progress...
@@ -108,6 +111,15 @@ export default function BasicTabs() {
             In progress...
           </AdminPanel>
           <AdminPanel value={value} index={12}>
+            In progress...
+          </AdminPanel>
+          <AdminPanel value={value} index={13}>
+            In progress...
+          </AdminPanel>
+          <AdminPanel value={value} index={14}>
+            In progress...
+          </AdminPanel>
+          <AdminPanel value={value} index={15}>
             In progress...
           </AdminPanel>
         </Box>

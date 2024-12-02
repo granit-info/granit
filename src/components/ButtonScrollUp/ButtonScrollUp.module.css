@@ -1,0 +1,45 @@
+.scroll_to_top {
+  position: fixed;
+  bottom: 10%;
+  right: 3%;
+  display: none;
+  z-index: 999;
+
+  transition: opacity 0.8s, visibility 0.8s, backdrop-filter 0.8s;
+  backdrop-filter: blur(50px);
+}
+
+.scroll_to_top.visible {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  backdrop-filter: none;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll_to_top button {
+  padding: 0.3rem;
+  display: flex;
+  border-radius: 100%;
+  background-color: transparent;
+  color: terracotta;
+  border: none;
+  transition: background-color 250ms ease-in-out, color 250ms ease-in-out;
+  filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.4));
+}
+
+.scroll_to_top button:hover {
+  color: white;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+}
