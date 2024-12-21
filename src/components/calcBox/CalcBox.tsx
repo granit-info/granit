@@ -16,9 +16,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import {
-  PriseFioFormat,
-} from "../../interfaces/Price";
+import { PriseFioFormat } from "../../interfaces/Price";
 import {
   BacksideSize,
   CutoutSize,
@@ -72,13 +70,15 @@ export default function CalcBox() {
     number | undefined
   >("selectedCutoutBox", undefined);
 
-  const [poemLenghtBox, setPoemLenghtBox] = useSyncedState<
-    number | undefined
-  >("poemLenghtBox", undefined);
+  const [poemLenghtBox, setPoemLenghtBox] = useSyncedState<number | undefined>(
+    "poemLenghtBox",
+    undefined
+  );
 
-  const [poemSizeBox, setPoemSizeBox] = useSyncedState<
-    number | undefined
-  >("poemSizeBox", undefined);
+  const [poemSizeBox, setPoemSizeBox] = useSyncedState<number | undefined>(
+    "poemSizeBox",
+    undefined
+  );
 
   const [artCheckboxStateBox, setArtCheckboxStateBox] = useSyncedState<{
     artwork: boolean;
@@ -90,12 +90,14 @@ export default function CalcBox() {
     poemGold: false,
   });
 
-  const [backsideSizeBox, setBacksideSizeBox] =
-    useSyncedState<BacksideSize>("backsideSizeBox", {
+  const [backsideSizeBox, setBacksideSizeBox] = useSyncedState<BacksideSize>(
+    "backsideSizeBox",
+    {
       width: undefined,
       height: undefined,
       isPhoto: false,
-    });
+    }
+  );
 
   const [cutoutSizeBox, setCutoutSizeBox] = useSyncedState<CutoutSize>(
     "cutoutSizeBox",
@@ -255,12 +257,8 @@ export default function CalcBox() {
       priseBackside.photoKoef
     ) {
       calculatedCost =
-        backsideSizeBox.height *
-        backsideSizeBox.width *
-        priseBackside.prise;
-      calculatedCost *= backsideSizeBox.isPhoto
-        ? priseBackside.photoKoef
-        : 1;
+        backsideSizeBox.height * backsideSizeBox.width * priseBackside.prise;
+      calculatedCost *= backsideSizeBox.isPhoto ? priseBackside.photoKoef : 1;
     }
 
     setCostBackside(calculatedCost);
@@ -272,7 +270,7 @@ export default function CalcBox() {
     priseBackside.prise,
   ]);
 
-   // Обработчик изменения поля ввода ВИРІЗКА
+  // Обработчик изменения поля ввода ВИРІЗКА
   const handleCutoutChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: keyof CutoutSize
@@ -349,15 +347,11 @@ export default function CalcBox() {
       switch (selectedCutoutBox) {
         case 1:
           calculatedCost =
-            cutoutSizeBox.height *
-            cutoutSizeBox.width *
-            priseCutout.flower;
+            cutoutSizeBox.height * cutoutSizeBox.width * priseCutout.flower;
           break;
         case 2:
           calculatedCost =
-            cutoutSizeBox.height *
-            cutoutSizeBox.width *
-            priseCutout.other;
+            cutoutSizeBox.height * cutoutSizeBox.width * priseCutout.other;
           break;
         default:
           calculatedCost = 0;
@@ -389,7 +383,6 @@ export default function CalcBox() {
   ) => {
     const selected = parseInt(event.target.value);
     setPoemSizeBox(selected);
-    
   };
 
   // Обработчик изменения радиокнопок ВИРІЗКА
@@ -465,9 +458,7 @@ export default function CalcBox() {
       fioIndSizeBox.width &&
       priseFioIndivid
     ) {
-      setCostFio(
-        fioIndSizeBox.height * fioIndSizeBox.width * priseFioIndivid
-      );
+      setCostFio(fioIndSizeBox.height * fioIndSizeBox.width * priseFioIndivid);
     }
     if (
       fioFormatBox == 1 &&
@@ -601,6 +592,216 @@ export default function CalcBox() {
           </div>
         </div>
 
+        {/*                                                      --------------------------   ХУДОЖКА */}
+        <div className={css.sheet}>
+          <div className={css.leftSide}>
+            <div>
+              <FormGroup>
+                <FormControlLabel
+                  disabled={!isValidForm}
+                  control={
+                    <Checkbox
+                      name="artwork"
+                      checked={artCheckboxStateBox.artwork}
+                      onChange={handleArtCheckboxChange}
+                    />
+                  }
+                  label="Художня робота:"
+                />
+                <div className={css.artwork}>
+                  <p>
+                    ➤ Прізвище, ім'я та по-батькові ({priseArtwork.fio} грн.)
+                  </p>
+                  <FormControlLabel
+                    style={{ marginLeft: "10px", marginTop: "-15px" }}
+                    control={
+                      <Checkbox
+                        size="small"
+                        name="fioGold"
+                        checked={artCheckboxStateBox.fioGold}
+                        onChange={handleArtCheckboxChange}
+                      />
+                    }
+                    label={`з позолотою  (додатково +${priseArtwork.fioGold} грн.)`}
+                    disabled={!artCheckboxStateBox.artwork}
+                  />
+                  <p>➤ Вірш ({priseArtwork.poem} грн.)</p>
+                  <FormControlLabel
+                    style={{ marginLeft: "10px", marginTop: "-15px" }}
+                    control={
+                      <Checkbox
+                        size="small"
+                        name="poemGold"
+                        checked={artCheckboxStateBox.poemGold}
+                        onChange={handleArtCheckboxChange}
+                      />
+                    }
+                    label={`з позолотою  (додатково +${priseArtwork.poemGold} грн.)`}
+                    disabled={!artCheckboxStateBox.artwork}
+                  />
+                </div>
+              </FormGroup>
+            </div>
+          </div>
+          <div className={css.rightSide}>
+            {artCheckboxStateBox.artwork && isValidForm ? (
+              <div className={css.textResult}>
+                <p className={css.textCost}>
+                  Загальна вартість:{" "}
+                  {Number(costArtwork.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              </div>
+            ) : (
+              <p> </p>
+            )}
+          </div>
+        </div>
+
+        {/*                                                      --------------------------   ЗВОРОТНЯ СТОРОНА */}
+        <div className={css.sheet}>
+          <div className={css.leftSide}>
+            <p>Зворотня сторона </p>
+            <hr /> <br />
+            <div>
+              <FormLabel id="backside">Задайте розміри для малюнку:</FormLabel>
+              <br />
+              <div className={css.sizesHider}>
+                <TextField
+                  id="backside-height"
+                  label="Висота, м"
+                  variant="standard"
+                  type="number"
+                  value={backsideSizeBox.height || undefined}
+                  onChange={(e) => handleBacksideChange(e, "height")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
+                <TextField
+                  id="backside-width"
+                  label="Ширина, м"
+                  variant="standard"
+                  type="number"
+                  value={backsideSizeBox.width || undefined}
+                  onChange={(e) => handleBacksideChange(e, "width")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+              </div>
+              <p className={css.secondaryText}>
+                Ціна: {priseBackside.prise} грн. за м²
+              </p>
+            </div>
+          </div>
+          <div className={css.rightSide}>
+            {backsideSizeBox.height && backsideSizeBox.width && isValidForm ? (
+              <div className={css.textResult}>
+                <p>
+                  Загальна площа малюнку:{" "}
+                  {backsideSizeBox.height * backsideSizeBox.width} м²
+                </p>
+                <p className={css.textCost}>
+                  Вартість:{" "}
+                  {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              </div>
+            ) : (
+              <p> </p>
+            )}
+          </div>
+        </div>
+
+        {/*                                                      --------------------------   ВИРІЗКА */}
+        <div className={css.sheet}>
+          <div className={css.leftSide}>
+            <div>
+              <FormLabel id="cutout">Задайте розміри для вирізки:</FormLabel>
+              <br />
+              <div className={css.sizesHider}>
+                <TextField
+                  id="cutout-height"
+                  label="Висота, м"
+                  variant="standard"
+                  type="number"
+                  value={cutoutSizeBox.height || ""}
+                  onChange={(e) => handleCutoutChange(e, "height")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
+                <TextField
+                  id="cutout-width"
+                  label="Ширина, м"
+                  variant="standard"
+                  type="number"
+                  value={cutoutSizeBox.width || ""}
+                  onChange={(e) => handleCutoutChange(e, "width")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+              </div>
+              <RadioGroup
+                aria-labelledby="radio-buttons-group-cutout"
+                value={selectedCutoutBox}
+                onChange={handleRadioCutout}
+                name="radio-buttons-group-cutout"
+              >
+                <FormControlLabel
+                  value={1}
+                  control={
+                    <Radio
+                      disabled={
+                        !isValidForm ||
+                        !cutoutSizeBox.height ||
+                        !cutoutSizeBox.width
+                      }
+                    />
+                  }
+                  label={`Квіти (${priseCutout.flower} грн. за м²)`}
+                  sx={{ marginLeft: "20px" }}
+                />
+                <FormControlLabel
+                  value={2}
+                  control={
+                    <Radio
+                      disabled={
+                        !isValidForm ||
+                        !cutoutSizeBox.height ||
+                        !cutoutSizeBox.width
+                      }
+                    />
+                  }
+                  label={`Інше (${priseCutout.other} грн. за м²)`}
+                  sx={{ marginLeft: "20px" }}
+                />
+              </RadioGroup>
+            </div>
+          </div>
+          <div className={css.rightSide}>
+            {cutoutSizeBox.height &&
+            cutoutSizeBox.width &&
+            selectedCutoutBox &&
+            isValidForm ? (
+              <div className={css.textResult}>
+                <p>
+                  Загальна площа вирізки:{" "}
+                  {cutoutSizeBox.height * cutoutSizeBox.width} м²
+                </p>
+                <p className={css.textCost}>
+                  Вартість:{" "}
+                  {Number(costCutout.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              </div>
+            ) : (
+              <p> </p>
+            )}
+          </div>
+        </div>
+
         {/*                                                      --------------------------   ФАСКА  */}
         <div className={css.sheet}>
           <div className={css.leftSide}>
@@ -639,9 +840,7 @@ export default function CalcBox() {
                   control={
                     <Radio
                       disabled={
-                        !isValidForm ||
-                        !facetLenghtBox ||
-                        facetLenghtBox <= 0
+                        !isValidForm || !facetLenghtBox || facetLenghtBox <= 0
                       }
                     />
                   }
@@ -653,9 +852,7 @@ export default function CalcBox() {
                   control={
                     <Radio
                       disabled={
-                        !isValidForm ||
-                        !facetLenghtBox ||
-                        facetLenghtBox <= 0
+                        !isValidForm || !facetLenghtBox || facetLenghtBox <= 0
                       }
                     />
                   }
@@ -667,9 +864,7 @@ export default function CalcBox() {
                   control={
                     <Radio
                       disabled={
-                        !isValidForm ||
-                        !facetLenghtBox ||
-                        facetLenghtBox <= 0
+                        !isValidForm || !facetLenghtBox || facetLenghtBox <= 0
                       }
                     />
                   }
@@ -682,9 +877,7 @@ export default function CalcBox() {
           <div className={css.rightSide}>
             {facetSizeBox > 0 && facetLenghtBox && isValidForm ? (
               <div className={css.textResult}>
-                <p>
-                  Врахована довжина фаски: {facetLenghtBox.toFixed(2)} м.п.
-                </p>
+                <p>Врахована довжина фаски: {facetLenghtBox.toFixed(2)} м.п.</p>
                 <p className={css.textCost}>
                   Вартість:{" "}
                   {Number(costFacet.toFixed(2)).toLocaleString("ru-RU")} грн.
@@ -796,9 +989,7 @@ export default function CalcBox() {
             </div>
           </div>
           <div className={css.rightSide}>
-            {fioFormatBox == 0 &&
-            selectedFioFormatBox?.prise &&
-            isValidForm ? (
+            {fioFormatBox == 0 && selectedFioFormatBox?.prise && isValidForm ? (
               <div className={css.textResult}>
                 <p>Розмір надпису: {selectedFioFormatBox.size}</p>
                 <p className={css.textCost}>
@@ -862,9 +1053,7 @@ export default function CalcBox() {
                     control={
                       <Radio
                         disabled={
-                          !isValidForm ||
-                          !poemLenghtBox ||
-                          poemLenghtBox <= 0
+                          !isValidForm || !poemLenghtBox || poemLenghtBox <= 0
                         }
                       />
                     }
@@ -876,9 +1065,7 @@ export default function CalcBox() {
                     control={
                       <Radio
                         disabled={
-                          !isValidForm ||
-                          !poemLenghtBox ||
-                          poemLenghtBox <= 0
+                          !isValidForm || !poemLenghtBox || poemLenghtBox <= 0
                         }
                       />
                     }
@@ -940,9 +1127,7 @@ export default function CalcBox() {
               </div>
             </div>
             <div className={css.rightSide}>
-              {poemAddWordBox.size &&
-              poemAddWordBox.quantity &&
-              isValidForm ? (
+              {poemAddWordBox.size && poemAddWordBox.quantity && isValidForm ? (
                 <div className={css.textResult}>
                   <p className={css.textCost}>
                     Вартість додаткових букв:{" "}
@@ -954,218 +1139,6 @@ export default function CalcBox() {
                 <p> </p>
               )}
             </div>
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ВИРІЗКА */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <FormLabel id="cutout">Задайте розміри для вирізки:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="cutout-height"
-                  label="Висота, м"
-                  variant="standard"
-                  type="number"
-                  value={cutoutSizeBox.height || ""}
-                  onChange={(e) => handleCutoutChange(e, "height")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
-                <TextField
-                  id="cutout-width"
-                  label="Ширина, м"
-                  variant="standard"
-                  type="number"
-                  value={cutoutSizeBox.width || ""}
-                  onChange={(e) => handleCutoutChange(e, "width")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-              </div>
-              <RadioGroup
-                aria-labelledby="radio-buttons-group-cutout"
-                value={selectedCutoutBox}
-                onChange={handleRadioCutout}
-                name="radio-buttons-group-cutout"
-              >
-                <FormControlLabel
-                  value={1}
-                  control={
-                    <Radio
-                      disabled={
-                        !isValidForm ||
-                        !cutoutSizeBox.height ||
-                        !cutoutSizeBox.width
-                      }
-                    />
-                  }
-                  label={`Квіти (${priseCutout.flower} грн. за м²)`}
-                  sx={{ marginLeft: "20px" }}
-                />
-                <FormControlLabel
-                  value={2}
-                  control={
-                    <Radio
-                      disabled={
-                        !isValidForm ||
-                        !cutoutSizeBox.height ||
-                        !cutoutSizeBox.width
-                      }
-                    />
-                  }
-                  label={`Інше (${priseCutout.other} грн. за м²)`}
-                  sx={{ marginLeft: "20px" }}
-                />
-              </RadioGroup>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {cutoutSizeBox.height &&
-            cutoutSizeBox.width &&
-            selectedCutoutBox &&
-            isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа вирізки:{" "}
-                  {cutoutSizeBox.height * cutoutSizeBox.width} м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costCutout.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ХУДОЖКА */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <FormGroup>
-                <FormControlLabel
-                  disabled={!isValidForm}
-                  control={
-                    <Checkbox
-                      name="artwork"
-                      checked={artCheckboxStateBox.artwork}
-                      onChange={handleArtCheckboxChange}
-                    />
-                  }
-                  label="Художня робота:"
-                />
-                <div className={css.artwork}>
-                  <p>
-                    ➤ Прізвище, ім'я та по-батькові ({priseArtwork.fio} грн.)
-                  </p>
-                  <FormControlLabel
-                    style={{ marginLeft: "10px", marginTop: "-15px" }}
-                    control={
-                      <Checkbox
-                        size="small"
-                        name="fioGold"
-                        checked={artCheckboxStateBox.fioGold}
-                        onChange={handleArtCheckboxChange}
-                      />
-                    }
-                    label={`з позолотою  (додатково +${priseArtwork.fioGold} грн.)`}
-                    disabled={!artCheckboxStateBox.artwork}
-                  />
-                  <p>➤ Вірш ({priseArtwork.poem} грн.)</p>
-                  <FormControlLabel
-                    style={{ marginLeft: "10px", marginTop: "-15px" }}
-                    control={
-                      <Checkbox
-                        size="small"
-                        name="poemGold"
-                        checked={artCheckboxStateBox.poemGold}
-                        onChange={handleArtCheckboxChange}
-                      />
-                    }
-                    label={`з позолотою  (додатково +${priseArtwork.poemGold} грн.)`}
-                    disabled={!artCheckboxStateBox.artwork}
-                  />
-                </div>
-              </FormGroup>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {artCheckboxStateBox.artwork && isValidForm ? (
-              <div className={css.textResult}>
-                <p className={css.textCost}>
-                  Загальна вартість:{" "}
-                  {Number(costArtwork.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ЗВОРОТНЯ СТОРОНА */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <p>Зворотня сторона </p>
-            <hr /> <br />
-            <div>
-              <FormLabel id="backside">Задайте розміри для малюнку:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="backside-height"
-                  label="Висота, м"
-                  variant="standard"
-                  type="number"
-                  value={backsideSizeBox.height || undefined}
-                  onChange={(e) => handleBacksideChange(e, "height")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
-                <TextField
-                  id="backside-width"
-                  label="Ширина, м"
-                  variant="standard"
-                  type="number"
-                  value={backsideSizeBox.width || undefined}
-                  onChange={(e) => handleBacksideChange(e, "width")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-              </div>
-              <p className={css.secondaryText}>
-                Ціна: {priseBackside.prise} грн. за м²
-              </p>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {backsideSizeBox.height &&
-            backsideSizeBox.width &&
-            isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа малюнку:{" "}
-                  {backsideSizeBox.height * backsideSizeBox.width} м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
           </div>
         </div>
 
@@ -1182,7 +1155,7 @@ export default function CalcBox() {
             <AccordionDetails>
               {costMaterial && isValidForm ? (
                 <p className={css.textCost}>
-                  Матеріал (Стела):{" "}
+                  Матеріал (Тумбочка):{" "}
                   {Number(costMaterial.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               ) : (
@@ -1252,7 +1225,6 @@ export default function CalcBox() {
               ) : (
                 <p> </p>
               )}
-
             </AccordionDetails>
           </Accordion>
         </div>

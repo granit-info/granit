@@ -1,13 +1,5 @@
 .container {
-    /* max-width: 1280px; */
-    /* margin: 10px auto; */
-    /* padding: 10px; */
     font-family: "Roboto", sans-serif;    
-    /* filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.5));
-
-    background: rgba(255, 255, 255, 0.6); 
-    backdrop-filter: blur(10px); 
-    border: 1px solid rgba(255, 255, 255, 0.2); */
     border-radius: 15px;
   }
   
@@ -39,7 +31,6 @@
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.8); 
     border: 1px solid rgba(255, 255, 255, 0.2); 
-    filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.5));
   }
   .sheetPoemPart {
     display: flex;
@@ -118,4 +109,5 @@
   input[type="number"] {
     -moz-appearance: textfield;
     appearance: none;
-  }  
+  }
+  

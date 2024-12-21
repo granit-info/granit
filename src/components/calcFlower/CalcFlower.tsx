@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import css from "./CalcShelf.module.css";
+import css from "./CalcFlower.module.css";
 import CustomDropdown from "../customDropdown/CustomDropdown";
 import { Material } from "../../interfaces/Material";
 import {
@@ -18,28 +18,30 @@ import { FormData, Kopir } from "../../interfaces/data";
 import { usePriseContext } from "../../globalContext/usePriseContext";
 import { useSyncedState } from "../../tools/useSyncedState";
 
-export default function CalcShelf() {
+export default function CalcFlower() {
+  const koefFlower = 1.1;
+
   const { priseFacet, priseKopir } = usePriseContext();
 
   const [isValidForm, setIsValidForm] = useState<boolean>(false);
 
   // Начальное состояние формы
-  const [formData, setFormData] = useSyncedState<FormData>("formDataShelf", {
+  const [formData, setFormData] = useSyncedState<FormData>("formDataFlower", {
     width: undefined,
     height: undefined,
     thickness: undefined,
     dropdown: null,
   });
 
-  const [facetSizeShelf, setFacetSizeShelf] = useSyncedState<number>(
-    "facetSizeShelf",
+  const [facetSizeFlower, setFacetSizeFlower] = useSyncedState<number>(
+    "facetSizeFlower",
     0
   );
-  const [facetLenghtShelf, setFacetLenghtShelf] = useSyncedState<
+  const [facetLenghtFlower, setFacetLenghtFlower] = useSyncedState<
     number | undefined
-  >("facetLenghtShelf", undefined);
+  >("facetLenghtFlower", undefined);
 
-  const [kopirShelf, setKopirShelf] = useSyncedState<Kopir>("kopirShelf", {
+  const [kopirFlower, setKopirFlower] = useSyncedState<Kopir>("kopirFlower", {
     lenght: undefined,
     isPolished: false,
   });
@@ -70,8 +72,8 @@ export default function CalcShelf() {
         formData.thickness !== undefined &&
         formData.dropdown !== null;
       setIsValidForm(isValid);
-      if (isValid && !facetLenghtShelf) {
-        setFacetLenghtShelf(
+      if (isValid && !facetLenghtFlower) {
+        setFacetLenghtFlower(
           parseFloat((formData.height! * 2 + formData.width!).toFixed(3))
         );
       }
@@ -86,7 +88,8 @@ export default function CalcShelf() {
           formData.width *
             formData.height *
             formData.thickness *
-            formData.dropdown.price
+            formData.dropdown.price *
+            koefFlower
         );
       } else {
         setCostMaterial(0);
@@ -116,11 +119,11 @@ export default function CalcShelf() {
     const parsedValue = parseFloat(e.target.value);
 
     // Обновляем длину фазки
-    setFacetLenghtShelf(parsedValue > 0 ? parsedValue : 0);
+    setFacetLenghtFlower(parsedValue > 0 ? parsedValue : 0);
 
     // Если значение пустое или меньше либо равно 0, устанавливаем выбранный Radio в "фазка не потрібна"
     if (!parsedValue || parsedValue <= 0) {
-      setFacetSizeShelf(0);
+      setFacetSizeFlower(0);
     }
   };
 
@@ -130,8 +133,8 @@ export default function CalcShelf() {
     field: keyof Kopir
   ) => {
     const { value } = e.target as HTMLInputElement;
-    setKopirShelf({
-      ...kopirShelf,
+    setKopirFlower({
+      ...kopirFlower,
       [field]: parseFloat(value),
     });
   };
@@ -142,7 +145,7 @@ export default function CalcShelf() {
     field: string
   ) => {
     const { checked } = event.target;
-    setKopirShelf((prevState) => ({
+    setKopirFlower((prevState) => ({
       ...prevState,
       [field]: checked,
     }));
@@ -153,21 +156,21 @@ export default function CalcShelf() {
     let calculatedCost = 0;
 
     if (
-      kopirShelf.lenght &&
+      kopirFlower.lenght &&
       priseKopir.prise &&
       priseKopir.polishedKoef &&
       formData.thickness
     ) {
       calculatedCost =
-        kopirShelf.lenght * formData.thickness * priseKopir.prise;
-      calculatedCost *= kopirShelf.isPolished ? priseKopir.polishedKoef : 1;
+        kopirFlower.lenght * formData.thickness * priseKopir.prise;
+      calculatedCost *= kopirFlower.isPolished ? priseKopir.polishedKoef : 1;
     }
 
     setCostKopir(calculatedCost);
   }, [
     formData.thickness,
-    kopirShelf.isPolished,
-    kopirShelf.lenght,
+    kopirFlower.isPolished,
+    kopirFlower.lenght,
     priseKopir.polishedKoef,
     priseKopir.prise,
   ]);
@@ -184,12 +187,12 @@ export default function CalcShelf() {
   useEffect(() => {
     let calculatedCostFacet = 0;
 
-    switch (facetSizeShelf) {
+    switch (facetSizeFlower) {
       case 1:
-        calculatedCostFacet = facetLenghtShelf! * priseFacet.first!;
+        calculatedCostFacet = facetLenghtFlower! * priseFacet.first!;
         break;
       case 2:
-        calculatedCostFacet = facetLenghtShelf! * priseFacet.second!;
+        calculatedCostFacet = facetLenghtFlower! * priseFacet.second!;
         break;
       case 3:
         calculatedCostFacet =
@@ -200,14 +203,14 @@ export default function CalcShelf() {
     }
 
     setCostFacet(calculatedCostFacet);
-  }, [formData, facetSizeShelf, priseFacet, facetLenghtShelf]);
+  }, [formData, facetSizeFlower, priseFacet, facetLenghtFlower]);
 
   // Обработчик изменения радиокнопок фазки
   const handleRadioFacetChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const selected = parseInt(event.target.value);
-    setFacetSizeShelf(selected);
+    setFacetSizeFlower(selected);
   };
 
   return (
@@ -242,7 +245,7 @@ export default function CalcShelf() {
               x
               <TextField
                 id="field3"
-                label="Товщина, м"
+                label="Довжина, м"
                 variant="standard"
                 type="number"
                 value={formData.thickness || undefined}
@@ -271,21 +274,16 @@ export default function CalcShelf() {
                     formData.width *
                     formData.height *
                     formData.thickness
-                  ).toFixed(2)}{" "}
+                  ).toFixed(3)}{" "}
                   м³
                 </p>
-                <p>
-                  Площа однієї сторони:{" "}
-                  {(formData.width * formData.height).toFixed(2)} м²
-                </p>
-                <p>
-                  Загальний периметр:{" "}
-                  {((formData.width + formData.height) * 2).toFixed(2)} м.п.
-                </p>
+
                 <p>
                   Загальна довжина фаски:{" "}
-                  {(formData.height! * 2 + formData.width!).toFixed(2)} м.п.
+                  {(formData.thickness * 1.1).toFixed(3)} м.п.
                 </p>
+                <br />
+                <p>Враховано коефіцієнт: x{koefFlower}</p>
                 <p className={css.textCost}>
                   Вартість матеріалу:{" "}
                   {Number(costMaterial.toFixed(2)).toLocaleString("ru-RU")} грн.
@@ -317,7 +315,7 @@ export default function CalcShelf() {
                   label="Довжина, м"
                   variant="standard"
                   type="number"
-                  value={kopirShelf.lenght || undefined}
+                  value={kopirFlower.lenght || undefined}
                   onChange={(e) => handleKopirChange(e, "lenght")}
                   margin="dense"
                   disabled={!isValidForm}
@@ -328,11 +326,11 @@ export default function CalcShelf() {
                 Ціна: {priseKopir.prise} грн. за м²
               </p>
               <FormControlLabel
-                disabled={!isValidForm || !kopirShelf.lenght}
+                disabled={!isValidForm || !kopirFlower.lenght}
                 control={
                   <Checkbox
                     name="kopir-polished"
-                    checked={kopirShelf.isPolished}
+                    checked={kopirFlower.isPolished}
                     onChange={(e) =>
                       handleKopirIsPolishedChange(e, "isPolished")
                     }
@@ -343,11 +341,11 @@ export default function CalcShelf() {
             </div>
           </div>
           <div className={css.rightSide}>
-            {kopirShelf.lenght && formData.thickness && isValidForm ? (
+            {kopirFlower.lenght && formData.thickness && isValidForm ? (
               <div className={css.textResult}>
                 <p>
                   Загальна площа копіру:{" "}
-                  {kopirShelf.lenght * formData.thickness} м²
+                  {kopirFlower.lenght * formData.thickness} м²
                 </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
@@ -374,7 +372,7 @@ export default function CalcShelf() {
                 variant="standard"
                 type="number"
                 value={
-                  facetLenghtShelf ??
+                  facetLenghtFlower ??
                   (formData.height! * 2 + formData.width!).toFixed(3)
                 }
                 onChange={(e) => handleChangeFacet(e)}
@@ -384,7 +382,7 @@ export default function CalcShelf() {
 
               <RadioGroup
                 aria-labelledby="radio-buttons-group-facet"
-                value={facetSizeShelf}
+                value={facetSizeFlower}
                 onChange={handleRadioFacetChange}
                 name="radio-buttons-group-facet"
               >
@@ -399,8 +397,8 @@ export default function CalcShelf() {
                     <Radio
                       disabled={
                         !isValidForm ||
-                        !facetLenghtShelf ||
-                        facetLenghtShelf <= 0
+                        !facetLenghtFlower ||
+                        facetLenghtFlower <= 0
                       }
                     />
                   }
@@ -413,8 +411,8 @@ export default function CalcShelf() {
                     <Radio
                       disabled={
                         !isValidForm ||
-                        !facetLenghtShelf ||
-                        facetLenghtShelf <= 0
+                        !facetLenghtFlower ||
+                        facetLenghtFlower <= 0
                       }
                     />
                   }
@@ -427,8 +425,8 @@ export default function CalcShelf() {
                     <Radio
                       disabled={
                         !isValidForm ||
-                        !facetLenghtShelf ||
-                        facetLenghtShelf <= 0
+                        !facetLenghtFlower ||
+                        facetLenghtFlower <= 0
                       }
                     />
                   }
@@ -439,10 +437,10 @@ export default function CalcShelf() {
             </FormControl>
           </div>
           <div className={css.rightSide}>
-            {facetSizeShelf > 0 && facetLenghtShelf && isValidForm ? (
+            {facetSizeFlower > 0 && facetLenghtFlower && isValidForm ? (
               <div className={css.textResult}>
                 <p>
-                  Врахована довжина фаски: {facetLenghtShelf.toFixed(2)} м.п.
+                  Врахована довжина фаски: {facetLenghtFlower.toFixed(2)} м.п.
                 </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
@@ -462,13 +460,13 @@ export default function CalcShelf() {
               aria-controls="panel1-content"
               id="panel1-header"
             >
-              Загальна вартість полки:{" "}
+              Загальна вартість квітнику:{" "}
               <b>{Number(costTotal.toFixed(2)).toLocaleString("ru-RU")} грн.</b>
             </AccordionSummary>
             <AccordionDetails>
               {costMaterial && isValidForm ? (
                 <p className={css.textCost}>
-                  Матеріал (Полка):{" "}
+                  Матеріал (Квітник):{" "}
                   {Number(costMaterial.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               ) : (

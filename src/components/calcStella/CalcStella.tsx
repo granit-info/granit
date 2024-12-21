@@ -281,13 +281,13 @@ export default function CalcStella() {
     }
   };
 
-  // Обработчик изменения поля ввода фазка длина
+  // Обработчик изменения поля ввода ВІРШ длина
   const handleChangePoem = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const parsedValue = parseFloat(e.target.value);
 
-    // Обновляем длину фазки
+    // Обновляем длину ВІРШ
     setPoemLenghtStella(parsedValue);
   };
 
@@ -475,8 +475,7 @@ export default function CalcStella() {
         calculatedCostFacet = facetLenghtStella! * priseFacet.second!;
         break;
       case 3:
-        calculatedCostFacet =
-          (formData.height! * 2 + formData.width!) * priseFacet.third!;
+        calculatedCostFacet = facetLenghtStella! * priseFacet.third!;
         break;
       default:
         calculatedCostFacet = 0;
@@ -539,7 +538,6 @@ export default function CalcStella() {
   ) => {
     const selected = parseInt(event.target.value);
     setPoemSizeStella(selected);
-    
   };
 
   // Обработчик изменения радиокнопок ВИРІЗКА
@@ -580,17 +578,17 @@ export default function CalcStella() {
     newValue: PrisePhotoglassFormat | null
   ) => {
     setSelectedPhotoglassFormatStella(newValue);
-
-
   };
   useEffect(() => {
-    if (selectedPhotoglassFormatStella && selectedPhotoglassFormatStella.prise) {
+    if (
+      selectedPhotoglassFormatStella &&
+      selectedPhotoglassFormatStella.prise
+    ) {
       setCostPhotoglass(selectedPhotoglassFormatStella.prise);
     } else {
       setCostPhotoglass(0);
     }
   }, [selectedPhotoglassFormatStella]);
-
 
   // Обработчик выбора из Autocomplete ФОТОКЕРАМІКА
   const handleAutocompletePhotokeramFormatChange = (
@@ -606,7 +604,10 @@ export default function CalcStella() {
     }
   };
   useEffect(() => {
-    if (selectedPhotokeramFormatStella && selectedPhotokeramFormatStella.prise) {
+    if (
+      selectedPhotokeramFormatStella &&
+      selectedPhotokeramFormatStella.prise
+    ) {
       setCostPhotokeram(selectedPhotokeramFormatStella.prise);
     } else {
       setCostPhotokeram(0);
@@ -705,7 +706,8 @@ export default function CalcStella() {
       setCostCross(0);
     } else {
       const selectedPrise =
-        priseCross.find((item) => item.size === selectedCrossStella)?.prise || 0;
+        priseCross.find((item) => item.size === selectedCrossStella)?.prise ||
+        0;
       setCostCross(selectedPrise);
     }
   }, [priseCross, selectedCrossStella]);
@@ -805,6 +807,289 @@ export default function CalcStella() {
           </div>
         </div>
 
+        {/*                                                      --------------------------   ХУДОЖКА */}
+        <div className={css.sheet}>
+          <div className={css.leftSide}>
+            <div>
+              <FormGroup>
+                <FormControlLabel
+                  disabled={!isValidForm}
+                  control={
+                    <Checkbox
+                      name="artwork"
+                      checked={artCheckboxStateStella.artwork}
+                      onChange={handleArtCheckboxChange}
+                    />
+                  }
+                  label="Художня робота:"
+                />
+                <div className={css.artwork}>
+                  <p>➤ Портрет ({priseArtwork.portrait} грн.)</p>
+                  <p>
+                    ➤ Прізвище, ім'я та по-батькові ({priseArtwork.fio} грн.)
+                  </p>
+                  <FormControlLabel
+                    style={{ marginLeft: "10px", marginTop: "-15px" }}
+                    control={
+                      <Checkbox
+                        size="small"
+                        name="fioGold"
+                        checked={artCheckboxStateStella.fioGold}
+                        onChange={handleArtCheckboxChange}
+                      />
+                    }
+                    label={`з позолотою  (додатково +${priseArtwork.fioGold} грн.)`}
+                    disabled={!artCheckboxStateStella.artwork}
+                  />
+                  <p>➤ Вірш ({priseArtwork.poem} грн.)</p>
+                  <FormControlLabel
+                    style={{ marginLeft: "10px", marginTop: "-15px" }}
+                    control={
+                      <Checkbox
+                        size="small"
+                        name="poemGold"
+                        checked={artCheckboxStateStella.poemGold}
+                        onChange={handleArtCheckboxChange}
+                      />
+                    }
+                    label={`з позолотою  (додатково +${priseArtwork.poemGold} грн.)`}
+                    disabled={!artCheckboxStateStella.artwork}
+                  />
+                </div>
+              </FormGroup>
+            </div>
+          </div>
+          <div className={css.rightSide}>
+            {artCheckboxStateStella.artwork && isValidForm ? (
+              <div className={css.textResult}>
+                <p className={css.textCost}>
+                  Загальна вартість:{" "}
+                  {Number(costArtwork.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              </div>
+            ) : (
+              <p> </p>
+            )}
+          </div>
+        </div>
+
+        {/*                                                      --------------------------   ЗВОРОТНЯ СТОРОНА */}
+        <div className={css.sheet}>
+          <div className={css.leftSide}>
+            <p>Зворотня сторона </p>
+            <hr /> <br />
+            <div>
+              <FormLabel id="backside">Задайте розміри для малюнку:</FormLabel>
+              <br />
+              <div className={css.sizesHider}>
+                <TextField
+                  id="backside-height"
+                  label="Висота, м"
+                  variant="standard"
+                  type="number"
+                  value={backsideSizeStella.height || undefined}
+                  onChange={(e) => handleBacksideChange(e, "height")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
+                <TextField
+                  id="backside-width"
+                  label="Ширина, м"
+                  variant="standard"
+                  type="number"
+                  value={backsideSizeStella.width || undefined}
+                  onChange={(e) => handleBacksideChange(e, "width")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+              </div>
+              <p className={css.secondaryText}>
+                Ціна: {priseBackside.prise} грн. за м²
+              </p>
+              <FormControlLabel
+                disabled={
+                  !isValidForm ||
+                  !backsideSizeStella.height ||
+                  !backsideSizeStella.width
+                }
+                control={
+                  <Checkbox
+                    name="backside-photo"
+                    checked={backsideSizeStella.isPhoto}
+                    onChange={(e) => handleBacksideIsPhotoChange(e, "isPhoto")}
+                  />
+                }
+                label={`Фото  (ціна множиться на ${priseBackside.photoKoef})`}
+              />
+            </div>
+          </div>
+          <div className={css.rightSide}>
+            {backsideSizeStella.height &&
+            backsideSizeStella.width &&
+            isValidForm ? (
+              <div className={css.textResult}>
+                <p>
+                  Загальна площа малюнку:{" "}
+                  {backsideSizeStella.height * backsideSizeStella.width} м²
+                </p>
+                <p className={css.textCost}>
+                  Вартість:{" "}
+                  {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              </div>
+            ) : (
+              <p> </p>
+            )}
+          </div>
+        </div>
+
+        {/*                                                      --------------------------   КОПІР */}
+        <div className={css.sheet}>
+          <div className={css.leftSide}>
+            <div>
+              <FormLabel id="kopir">Задайте розмір для копіру:</FormLabel>
+              <br />
+              <div className={css.sizesHider}>
+                <TextField
+                  id="kopir-lenght"
+                  label="Довжина, м"
+                  variant="standard"
+                  type="number"
+                  value={kopirStella.lenght || undefined}
+                  onChange={(e) => handleKopirChange(e, "lenght")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "200px" }}
+                />
+              </div>
+              <p className={css.secondaryText}>
+                Ціна: {priseKopir.prise} грн. за м²
+              </p>
+              <FormControlLabel
+                disabled={!isValidForm || !kopirStella.lenght}
+                control={
+                  <Checkbox
+                    name="kopir-polished"
+                    checked={kopirStella.isPolished}
+                    onChange={(e) =>
+                      handleKopirIsPolishedChange(e, "isPolished")
+                    }
+                  />
+                }
+                label={`Полірування (ціна множиться на ${priseKopir.polishedKoef})`}
+              />
+            </div>
+          </div>
+          <div className={css.rightSide}>
+            {kopirStella.lenght && formData.thickness && isValidForm ? (
+              <div className={css.textResult}>
+                <p>
+                  Загальна площа копіру:{" "}
+                  {kopirStella.lenght * formData.thickness} м²
+                </p>
+                <p className={css.textCost}>
+                  Вартість:{" "}
+                  {Number(costKopir.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              </div>
+            ) : (
+              <p> </p>
+            )}
+          </div>
+        </div>
+
+        {/*                                                      --------------------------   ВИРІЗКА */}
+        <div className={css.sheet}>
+          <div className={css.leftSide}>
+            <div>
+              <FormLabel id="cutout">Задайте розміри для вирізки:</FormLabel>
+              <br />
+              <div className={css.sizesHider}>
+                <TextField
+                  id="cutout-height"
+                  label="Висота, м"
+                  variant="standard"
+                  type="number"
+                  value={cutoutSizeStella.height || ""}
+                  onChange={(e) => handleCutoutChange(e, "height")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
+                <TextField
+                  id="cutout-width"
+                  label="Ширина, м"
+                  variant="standard"
+                  type="number"
+                  value={cutoutSizeStella.width || ""}
+                  onChange={(e) => handleCutoutChange(e, "width")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+              </div>
+              <RadioGroup
+                aria-labelledby="radio-buttons-group-cutout"
+                value={selectedCutoutStella}
+                onChange={handleRadioCutout}
+                name="radio-buttons-group-cutout"
+              >
+                <FormControlLabel
+                  value={1}
+                  control={
+                    <Radio
+                      disabled={
+                        !isValidForm ||
+                        !cutoutSizeStella.height ||
+                        !cutoutSizeStella.width
+                      }
+                    />
+                  }
+                  label={`Квіти (${priseCutout.flower} грн. за м²)`}
+                  sx={{ marginLeft: "20px" }}
+                />
+                <FormControlLabel
+                  value={2}
+                  control={
+                    <Radio
+                      disabled={
+                        !isValidForm ||
+                        !cutoutSizeStella.height ||
+                        !cutoutSizeStella.width
+                      }
+                    />
+                  }
+                  label={`Інше (${priseCutout.other} грн. за м²)`}
+                  sx={{ marginLeft: "20px" }}
+                />
+              </RadioGroup>
+            </div>
+          </div>
+          <div className={css.rightSide}>
+            {cutoutSizeStella.height &&
+            cutoutSizeStella.width &&
+            selectedCutoutStella &&
+            isValidForm ? (
+              <div className={css.textResult}>
+                <p>
+                  Загальна площа вирізки:{" "}
+                  {cutoutSizeStella.height * cutoutSizeStella.width} м²
+                </p>
+                <p className={css.textCost}>
+                  Вартість:{" "}
+                  {Number(costCutout.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              </div>
+            ) : (
+              <p> </p>
+            )}
+          </div>
+        </div>
+
         {/*                                                      --------------------------   ФАСКА  */}
         <div className={css.sheet}>
           <div className={css.leftSide}>
@@ -900,53 +1185,49 @@ export default function CalcStella() {
           </div>
         </div>
 
-        {/*                                                      --------------------------   КОПІР */}
+        {/*                                                      --------------------------   ХРЕСТИК ЛАТУННИЙ */}
         <div className={css.sheet}>
           <div className={css.leftSide}>
             <div>
-              <FormLabel id="kopir">Задайте розмір для копіру:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="kopir-lenght"
-                  label="Довжина, м"
-                  variant="standard"
-                  type="number"
-                  value={kopirStella.lenght || undefined}
-                  onChange={(e) => handleKopirChange(e, "lenght")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "200px" }}
-                />
-              </div>
-              <p className={css.secondaryText}>
-                Ціна: {priseKopir.prise} грн. за м²
-              </p>
-              <FormControlLabel
-                disabled={!isValidForm || !kopirStella.lenght}
-                control={
-                  <Checkbox
-                    name="kopir-polished"
-                    checked={kopirStella.isPolished}
-                    onChange={(e) =>
-                      handleKopirIsPolishedChange(e, "isPolished")
-                    }
+              <p>Хрестик латунний </p>
+              <hr /> <br />
+              <FormControl>
+                <FormLabel id="radio-buttons-group-cross">
+                  Оберіть рорзмір:
+                </FormLabel>
+                <RadioGroup
+                  aria-labelledby="radio-buttons-group-cross"
+                  value={selectedCrossStella}
+                  name="radio-buttons-group"
+                  onChange={handleCrossChange}
+                >
+                  <FormControlLabel
+                    value="0"
+                    control={<Radio disabled={!isValidForm} />}
+                    label="Не потрібно"
                   />
-                }
-                label={`Полірування (ціна множиться на ${priseKopir.polishedKoef})`}
-              />
+
+                  {priseCross.map((item) => (
+                    <FormControlLabel
+                      key={item.size}
+                      value={item.size!}
+                      control={<Radio disabled={!isValidForm} />}
+                      label={`${item.size} (${item.prise?.toLocaleString(
+                        "ru-RU"
+                      )} грн.)`}
+                      sx={{ marginLeft: "20px" }}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
             </div>
           </div>
           <div className={css.rightSide}>
-            {kopirStella.lenght && formData.thickness && isValidForm ? (
+            {isValidForm && selectedCrossStella != "0" ? (
               <div className={css.textResult}>
-                <p>
-                  Загальна площа копіру:{" "}
-                  {kopirStella.lenght * formData.thickness} м²
-                </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
-                  {Number(costKopir.toFixed(2)).toLocaleString("ru-RU")} грн.
+                  {Number(costCross.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               </div>
             ) : (
@@ -992,60 +1273,8 @@ export default function CalcStella() {
           </div>
         </div>
 
-        {/*                                                            --------------------------   ПОТАЙ  */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <FormLabel id="hackle">Задайте розміри для потаю:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="hide-height"
-                  label="Висота, м"
-                  variant="standard"
-                  type="number"
-                  value={hiderStella.height || undefined}
-                  onChange={(e) => handleHiderChange(e, "height")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
-                <TextField
-                  id="hide-width"
-                  label="Ширина, м"
-                  variant="standard"
-                  type="number"
-                  value={hiderStella.width || undefined}
-                  onChange={(e) => handleHiderChange(e, "width")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-              </div>
-              <p className={css.secondaryText}>Ціна: {priseHider} грн. за м²</p>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {hiderStella.height && hiderStella.width && isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа потаю: {hiderStella.height * hiderStella.width}{" "}
-                  м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costHider.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
         {/*                                                          --------------------------  ФИО  */}
-        <div className={css.sheet}>
+        <div className={css.sheet} style={{ zIndex: 2, position: "relative" }}>
           <div className={css.leftSide}>
             <div>
               <p>Піскоструй: Прізвище, ім'я, по батькові </p>
@@ -1305,236 +1534,8 @@ export default function CalcStella() {
           </div>
         </div>
 
-        {/*                                                      --------------------------   ВИРІЗКА */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <FormLabel id="cutout">Задайте розміри для вирізки:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="cutout-height"
-                  label="Висота, м"
-                  variant="standard"
-                  type="number"
-                  value={cutoutSizeStella.height || ""}
-                  onChange={(e) => handleCutoutChange(e, "height")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
-                <TextField
-                  id="cutout-width"
-                  label="Ширина, м"
-                  variant="standard"
-                  type="number"
-                  value={cutoutSizeStella.width || ""}
-                  onChange={(e) => handleCutoutChange(e, "width")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-              </div>
-              <RadioGroup
-                aria-labelledby="radio-buttons-group-cutout"
-                value={selectedCutoutStella}
-                onChange={handleRadioCutout}
-                name="radio-buttons-group-cutout"
-              >
-                <FormControlLabel
-                  value={1}
-                  control={
-                    <Radio
-                      disabled={
-                        !isValidForm ||
-                        !cutoutSizeStella.height ||
-                        !cutoutSizeStella.width
-                      }
-                    />
-                  }
-                  label={`Квіти (${priseCutout.flower} грн. за м²)`}
-                  sx={{ marginLeft: "20px" }}
-                />
-                <FormControlLabel
-                  value={2}
-                  control={
-                    <Radio
-                      disabled={
-                        !isValidForm ||
-                        !cutoutSizeStella.height ||
-                        !cutoutSizeStella.width
-                      }
-                    />
-                  }
-                  label={`Інше (${priseCutout.other} грн. за м²)`}
-                  sx={{ marginLeft: "20px" }}
-                />
-              </RadioGroup>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {cutoutSizeStella.height &&
-            cutoutSizeStella.width &&
-            selectedCutoutStella &&
-            isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа вирізки:{" "}
-                  {cutoutSizeStella.height * cutoutSizeStella.width} м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costCutout.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ХУДОЖКА */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <FormGroup>
-                <FormControlLabel
-                  disabled={!isValidForm}
-                  control={
-                    <Checkbox
-                      name="artwork"
-                      checked={artCheckboxStateStella.artwork}
-                      onChange={handleArtCheckboxChange}
-                    />
-                  }
-                  label="Художня робота:"
-                />
-                <div className={css.artwork}>
-                  <p>➤ Портрет ({priseArtwork.portrait} грн.)</p>
-                  <p>
-                    ➤ Прізвище, ім'я та по-батькові ({priseArtwork.fio} грн.)
-                  </p>
-                  <FormControlLabel
-                    style={{ marginLeft: "10px", marginTop: "-15px" }}
-                    control={
-                      <Checkbox
-                        size="small"
-                        name="fioGold"
-                        checked={artCheckboxStateStella.fioGold}
-                        onChange={handleArtCheckboxChange}
-                      />
-                    }
-                    label={`з позолотою  (додатково +${priseArtwork.fioGold} грн.)`}
-                    disabled={!artCheckboxStateStella.artwork}
-                  />
-                  <p>➤ Вірш ({priseArtwork.poem} грн.)</p>
-                  <FormControlLabel
-                    style={{ marginLeft: "10px", marginTop: "-15px" }}
-                    control={
-                      <Checkbox
-                        size="small"
-                        name="poemGold"
-                        checked={artCheckboxStateStella.poemGold}
-                        onChange={handleArtCheckboxChange}
-                      />
-                    }
-                    label={`з позолотою  (додатково +${priseArtwork.poemGold} грн.)`}
-                    disabled={!artCheckboxStateStella.artwork}
-                  />
-                </div>
-              </FormGroup>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {artCheckboxStateStella.artwork && isValidForm ? (
-              <div className={css.textResult}>
-                <p className={css.textCost}>
-                  Загальна вартість:{" "}
-                  {Number(costArtwork.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ЗВОРОТНЯ СТОРОНА */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <p>Зворотня сторона </p>
-            <hr /> <br />
-            <div>
-              <FormLabel id="backside">Задайте розміри для малюнку:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="backside-height"
-                  label="Висота, м"
-                  variant="standard"
-                  type="number"
-                  value={backsideSizeStella.height || undefined}
-                  onChange={(e) => handleBacksideChange(e, "height")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
-                <TextField
-                  id="backside-width"
-                  label="Ширина, м"
-                  variant="standard"
-                  type="number"
-                  value={backsideSizeStella.width || undefined}
-                  onChange={(e) => handleBacksideChange(e, "width")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-              </div>
-              <p className={css.secondaryText}>
-                Ціна: {priseBackside.prise} грн. за м²
-              </p>
-              <FormControlLabel
-                disabled={
-                  !isValidForm ||
-                  !backsideSizeStella.height ||
-                  !backsideSizeStella.width
-                }
-                control={
-                  <Checkbox
-                    name="backside-photo"
-                    checked={backsideSizeStella.isPhoto}
-                    onChange={(e) => handleBacksideIsPhotoChange(e, "isPhoto")}
-                  />
-                }
-                label={`Фото  (ціна множиться на ${priseBackside.photoKoef})`}
-              />
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {backsideSizeStella.height &&
-            backsideSizeStella.width &&
-            isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа малюнку:{" "}
-                  {backsideSizeStella.height * backsideSizeStella.width} м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
         {/*                                                      --------------------------   ФОТОСКЛО */}
-        <div className={css.sheet}>
+        <div className={css.sheet} style={{ zIndex: 2, position: "relative" }}>
           <div className={css.leftSide}>
             <div>
               <p>Фотоскло </p>
@@ -1575,7 +1576,7 @@ export default function CalcStella() {
         </div>
 
         {/*                                                      --------------------------   ФОТОКЕРАМІКА */}
-        <div className={css.sheet}>
+        <div className={css.sheet} style={{ zIndex: 1, position: "relative" }}>
           <div className={css.leftSide}>
             <div>
               <p>Фотокераміка </p>
@@ -1615,49 +1616,50 @@ export default function CalcStella() {
           </div>
         </div>
 
-        {/*                                                      --------------------------   ХРЕСТИК ЛАТУННИЙ */}
+        {/*                                                            --------------------------   ПОТАЙ  */}
         <div className={css.sheet}>
           <div className={css.leftSide}>
             <div>
-              <p>Хрестик латунний </p>
-              <hr /> <br />
-              <FormControl>
-                <FormLabel id="radio-buttons-group-cross">
-                  Оберіть рорзмір:
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="radio-buttons-group-cross"
-                  value={selectedCrossStella}
-                  name="radio-buttons-group"
-                  onChange={handleCrossChange}
-                >
-                  <FormControlLabel
-                    value="0"
-                    control={<Radio disabled={!isValidForm} />}
-                    label="Не потрібно"
-                  />
-
-                  {priseCross.map((item) => (
-                    <FormControlLabel
-                      key={item.size}
-                      value={item.size!}
-                      control={<Radio disabled={!isValidForm} />}
-                      label={`${item.size} (${item.prise?.toLocaleString(
-                        "ru-RU"
-                      )} грн.)`}
-                      sx={{ marginLeft: "20px" }}
-                    />
-                  ))}
-                </RadioGroup>
-              </FormControl>
+              <FormLabel id="hider">Задайте розміри для потаю:</FormLabel>
+              <br />
+              <div className={css.sizesHider}>
+                <TextField
+                  id="hide-height"
+                  label="Висота, м"
+                  variant="standard"
+                  type="number"
+                  value={hiderStella.height || undefined}
+                  onChange={(e) => handleHiderChange(e, "height")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
+                <TextField
+                  id="hide-width"
+                  label="Ширина, м"
+                  variant="standard"
+                  type="number"
+                  value={hiderStella.width || undefined}
+                  onChange={(e) => handleHiderChange(e, "width")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "100px" }}
+                />
+              </div>
+              <p className={css.secondaryText}>Ціна: {priseHider} грн. за м²</p>
             </div>
           </div>
           <div className={css.rightSide}>
-            {isValidForm && selectedCrossStella != "0" ? (
+            {hiderStella.height && hiderStella.width && isValidForm ? (
               <div className={css.textResult}>
+                <p>
+                  Загальна площа потаю: {hiderStella.height * hiderStella.width}{" "}
+                  м²
+                </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
-                  {Number(costCross.toFixed(2)).toLocaleString("ru-RU")} грн.
+                  {Number(costHider.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               </div>
             ) : (
@@ -1686,10 +1688,19 @@ export default function CalcStella() {
                 <p> </p>
               )}
 
-              {costFacet && isValidForm ? (
+              {costArtwork && isValidForm ? (
                 <p className={css.textCost}>
-                  Фазка: {Number(costFacet.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
+                  Художня робота:{" "}
+                  {Number(costArtwork.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              ) : (
+                <p> </p>
+              )}
+
+              {costBackside && isValidForm ? (
+                <p className={css.textCost}>
+                  Зворотня сторона:{" "}
+                  {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               ) : (
                 <p> </p>
@@ -1704,18 +1715,36 @@ export default function CalcStella() {
                 <p> </p>
               )}
 
-              {costHackle && isValidForm ? (
+              {costCutout && isValidForm ? (
                 <p className={css.textCost}>
-                  Пір'я: {Number(costHackle.toFixed(2)).toLocaleString("ru-RU")}{" "}
+                  Вирізка:{" "}
+                  {Number(costCutout.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              ) : (
+                <p> </p>
+              )}
+
+              {costFacet && isValidForm ? (
+                <p className={css.textCost}>
+                  Фазка: {Number(costFacet.toFixed(2)).toLocaleString("ru-RU")}{" "}
                   грн.
                 </p>
               ) : (
                 <p> </p>
               )}
 
-              {costHider && isValidForm ? (
+              {costCross && isValidForm ? (
                 <p className={css.textCost}>
-                  Потай: {Number(costHider.toFixed(2)).toLocaleString("ru-RU")}{" "}
+                  Хрестик латунний:{" "}
+                  {Number(costCross.toFixed(2)).toLocaleString("ru-RU")} грн.
+                </p>
+              ) : (
+                <p> </p>
+              )}
+
+              {costHackle && isValidForm ? (
+                <p className={css.textCost}>
+                  Пір'я: {Number(costHackle.toFixed(2)).toLocaleString("ru-RU")}{" "}
                   грн.
                 </p>
               ) : (
@@ -1750,33 +1779,6 @@ export default function CalcStella() {
                 <p> </p>
               )}
 
-              {costCutout && isValidForm ? (
-                <p className={css.textCost}>
-                  Вирізка:{" "}
-                  {Number(costCutout.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costArtwork && isValidForm ? (
-                <p className={css.textCost}>
-                  Художня робота:{" "}
-                  {Number(costArtwork.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costBackside && isValidForm ? (
-                <p className={css.textCost}>
-                  Зворотня сторона:{" "}
-                  {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
               {costPhotoglass && isValidForm ? (
                 <p className={css.textCost}>
                   Фотоскло:{" "}
@@ -1797,10 +1799,10 @@ export default function CalcStella() {
                 <p> </p>
               )}
 
-              {costCross && isValidForm ? (
+              {costHider && isValidForm ? (
                 <p className={css.textCost}>
-                  Хрестик латунний:{" "}
-                  {Number(costCross.toFixed(2)).toLocaleString("ru-RU")} грн.
+                  Потай: {Number(costHider.toFixed(2)).toLocaleString("ru-RU")}{" "}
+                  грн.
                 </p>
               ) : (
                 <p> </p>

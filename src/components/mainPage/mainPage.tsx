@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -6,6 +7,23 @@ import { Link } from "react-router-dom";
 import CalcStella from "../calcStella/CalcStella";
 import CalcBox from "../calcBox/CalcBox";
 import CalcShelf from "../calcShelf/CalcShelf";
+import CalcFlower from "../calcFlower/CalcFlower";
+import CalcCrossSolid from "../calcCrossSolid/CalcCrossSolid";
+import CalcCrossGlued from "../calcCrossGlued/CalcCrossGlued";
+import CalcVaseTurned from "../calcVaseTurned/CalcVaseTurned";
+import CalcVaseSquare from "../calcVaseSquare/CalcVaseSquare";
+import CalcLamp from "../calcLampTurned/CalcLampTurned";
+import CalcTombstone from "../calcTombstone/CalcTombstone";
+import CalcTileGor1 from "../calcTileGor1/CalcTileGor1";
+import CalcTileGor2 from "../calcTileGor2/CalcTileGor2";
+import CalcTileVert1 from "../calcTileVert1/CalcTileVert1";
+import CalcTileVert2 from "../calcTileVert2/CalcTileVert2";
+import CalcAngleSquare from "../calcAngleSquare/CalcAngleSquare";
+import CalcAngleTurned from "../calcAngleTurned/CalcAngleTurned";
+import CalcColumn from "../calcColumn/CalcColumn";
+import CalcSphere from "../calcSphere/CalcSphere";
+import CalcLampTurned from "../calcLampTurned/CalcLampTurned";
+import CalcLampSquare from "../calcLampSquare/CalcLampSquare";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,68 +77,87 @@ export default function BasicTabs() {
               <Tab label="Стела" {...a11yProps(0)} />
               <Tab label="Тумбочка" {...a11yProps(1)} />
               <Tab label="Квітник" {...a11yProps(2)} />
-              <Tab label="Хрест" {...a11yProps(3)} />
-              <Tab label="Ваза" {...a11yProps(4)} />
-              <Tab label="Лампадка" {...a11yProps(5)} />
-              <Tab label="Надгробна плита" {...a11yProps(6)} />
-              <Tab label="Плитка горизонтальна" {...a11yProps(7)} />
-              <Tab label="Плитка вертикальна" {...a11yProps(8)} />
-              <Tab label="Полка" {...a11yProps(9)} />
-              <Tab label="Вугли" {...a11yProps(10)} />
-              <Tab label="Точені вироби" {...a11yProps(11)} />
-              <Tab label="Площадка" {...a11yProps(12)} />
-              <Tab label="Стіл" {...a11yProps(13)} />
-              <Tab label="Лавка" {...a11yProps(14)} />
-              <Tab label="Заборчик" {...a11yProps(15)} />
+              <Tab label="Хрест суцільний" {...a11yProps(3)} />
+              <Tab label="Хрест клеєний" {...a11yProps(4)} />
+              <Tab label="Ваза точена" {...a11yProps(5)} />
+              <Tab label="Ваза квадратна" {...a11yProps(6)} />
+              <Tab label="Лампадка точена" {...a11yProps(7)} />
+              <Tab label="Лампадка квадратна" {...a11yProps(8)} />
+              <Tab label="Надгробна плита" {...a11yProps(9)} />
+              <Tab label="Плитка горизонтальна 1" {...a11yProps(10)} />
+              <Tab label="Плитка вертикальна 1" {...a11yProps(11)} />
+              <Tab label="Плитка горизонтальна 2" {...a11yProps(12)} />
+              <Tab label="Плитка вертикальна 2" {...a11yProps(13)} />
+
+              <Tab label="Полка" {...a11yProps(14)} />
+
+              <Tab label="Вугли квадратні" {...a11yProps(15)} />
+              <Tab label="Вугли точені" {...a11yProps(16)} />
+              <Tab label="Колони" {...a11yProps(17)} />
+              <Tab label="Шар" {...a11yProps(18)} />
+
+              {/* <Tab label="Площадка" {...a11yProps(19)} />
+              <Tab label="Стіл" {...a11yProps(20)} />
+              <Tab label="Лавка" {...a11yProps(21)} />
+              <Tab label="Заборчик" {...a11yProps(22)} /> */}
             </Tabs>
           </Box>
           <AdminPanel value={value} index={0}>
-            <CalcStella/>
+            <CalcStella />
           </AdminPanel>
           <AdminPanel value={value} index={1}>
             <CalcBox />
           </AdminPanel>
           <AdminPanel value={value} index={2}>
-          In progress...
+            <CalcFlower />
           </AdminPanel>
           <AdminPanel value={value} index={3}>
-            In progress...
+            <CalcCrossSolid />
           </AdminPanel>
           <AdminPanel value={value} index={4}>
-            In progress...
+            <CalcCrossGlued />
           </AdminPanel>
           <AdminPanel value={value} index={5}>
-            In progress...
+            <CalcVaseTurned />
           </AdminPanel>
           <AdminPanel value={value} index={6}>
-            In progress...
+            <CalcVaseSquare />
           </AdminPanel>
           <AdminPanel value={value} index={7}>
-            In progress...
+            <CalcLampTurned />
           </AdminPanel>
           <AdminPanel value={value} index={8}>
-            In progress...
+            <CalcLampSquare />
           </AdminPanel>
           <AdminPanel value={value} index={9}>
-            <CalcShelf />
+            <CalcTombstone />
           </AdminPanel>
           <AdminPanel value={value} index={10}>
-            In progress...
+            <CalcTileGor1 />
           </AdminPanel>
           <AdminPanel value={value} index={11}>
-            In progress...
+            <CalcTileVert1 />
           </AdminPanel>
           <AdminPanel value={value} index={12}>
-            In progress...
+          <CalcTileGor2 />
           </AdminPanel>
           <AdminPanel value={value} index={13}>
-            In progress...
+          <CalcTileVert2 />
           </AdminPanel>
           <AdminPanel value={value} index={14}>
-            In progress...
+            <CalcShelf />
           </AdminPanel>
           <AdminPanel value={value} index={15}>
-            In progress...
+            <CalcAngleSquare />
+          </AdminPanel>
+          <AdminPanel value={value} index={16}>
+            <CalcAngleTurned />
+          </AdminPanel>
+          <AdminPanel value={value} index={17}>
+            <CalcColumn />
+          </AdminPanel>
+          <AdminPanel value={value} index={18}>
+            <CalcSphere />
           </AdminPanel>
         </Box>
       </div>
