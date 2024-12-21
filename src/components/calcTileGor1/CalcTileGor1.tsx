@@ -14,40 +14,22 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import {
-  BacksideSize,
-  FioIndSize,
-  FormData,
-  Kopir,
-} from "../../interfaces/data";
+import { FormData, Kopir } from "../../interfaces/data";
 import { usePriseContext } from "../../globalContext/usePriseContext";
 import { useSyncedState } from "../../tools/useSyncedState";
 
 export default function CalcTileGor1() {
-  const {
-    priseFioIndivid,
-    priseFacet,
-    priseBackside,
-    priseHackle,
-    priseKopir,
-  } = usePriseContext();
+  const { priseFacet, priseKopir } = usePriseContext();
 
   const [isValidForm, setIsValidForm] = useState<boolean>(false);
 
   // Начальное состояние формы
-  const [formData, setFormData] = useSyncedState<FormData>(
-    "formDataTileGor1",
-    {
-      width: undefined,
-      height: undefined,
-      thickness: undefined,
-      dropdown: null,
-    }
-  );
-
-  const [hackleTileGor1, setHackleTileGor1] = useSyncedState<
-    number | undefined
-  >("hackleTileGor1", undefined);
+  const [formData, setFormData] = useSyncedState<FormData>("formDataTileGor1", {
+    width: undefined,
+    height: undefined,
+    thickness: undefined,
+    dropdown: null,
+  });
 
   const [facetSizeTileGor1, setFacetSizeTileGor1] = useSyncedState<number>(
     "facetSizeTileGor1",
@@ -56,17 +38,7 @@ export default function CalcTileGor1() {
   const [facetLenghtTileGor1, setFacetLenghtTileGor1] = useSyncedState<
     number | undefined
   >("facetLenghtTileGor1", undefined);
-  const [fioFormatTileGor1, setFioFormatTileGor1] = useSyncedState<number>(
-    "fioFormatTileGor1",
-    0
-  );
 
-  const [backsideSizeTileGor1, setBacksideSizeTileGor1] =
-    useSyncedState<BacksideSize>("backsideSizeTileGor1", {
-      width: undefined,
-      height: undefined,
-      isPhoto: false,
-    });
   const [kopirTileGor1, setKopirTileGor1] = useSyncedState<Kopir>(
     "kopirTileGor1",
     {
@@ -75,44 +47,22 @@ export default function CalcTileGor1() {
     }
   );
 
-  const [fioIndSizeTileGor1, setFioIndSizeTileGor1] =
-    useSyncedState<FioIndSize>("fioIndSizeTileGor1", {
-      width: undefined,
-      height: undefined,
-    });
-
   const [costMaterial, setCostMaterial] = useState<number>(0);
   const [costFacet, setCostFacet] = useState<number>(0);
-  const [costFio, setCostFio] = useState<number>(0);
-  const [costBackside, setCostBackside] = useState<number>(0);
   const [costKopir, setCostKopir] = useState<number>(0);
-  const [costHackle, setCostHackle] = useState<number>(0);
   const [costTotal, setCostTotal] = useState<number>(0);
 
   // подсчет итоговой стоимости
   useEffect(() => {
     if (isValidForm) {
       const totalCost =
-        (costMaterial || 0) +
-        (costFacet || 0) +
-        (costKopir || 0) +
-        (costFio || 0) +
-        (costHackle || 0) +
-        (costBackside || 0);
+        (costMaterial || 0) + (costFacet || 0) + (costKopir || 0);
 
       setCostTotal(totalCost);
     } else {
       setCostTotal(0); // Сброс суммы, если форма недействительна
     }
-  }, [
-    costBackside,
-    costFacet,
-    costFio,
-    costKopir,
-    costHackle,
-    costMaterial,
-    isValidForm,
-  ]);
+  }, [costFacet, costKopir, costMaterial, isValidForm]);
 
   // Используем useEffect для автоматической проверки при изменении formData
   useEffect(() => {
@@ -208,58 +158,6 @@ export default function CalcTileGor1() {
     }));
   };
 
-  // Обработчик изменения поля ввода размеров для  ЗВОРОТНЯ СТОРОНА
-  const handleBacksideChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: keyof BacksideSize
-  ) => {
-    const { value } = e.target as HTMLInputElement;
-    setBacksideSizeTileGor1({
-      ...backsideSizeTileGor1,
-      [field]: parseFloat(value),
-    });
-  };
-
-  // Обработчик изменения isPhoto для  ЗВОРОТНЯ СТОРОНА
-  const handleBacksideIsPhotoChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    field: string
-  ) => {
-    const { checked } = event.target;
-    setBacksideSizeTileGor1((prevState) => ({
-      ...prevState,
-      [field]: checked,
-    }));
-  };
-
-  // хук для отслеживаниия изменений в ЗВОРОТНЯ СТОРОНА
-  useEffect(() => {
-    let calculatedCost = 0;
-
-    if (
-      backsideSizeTileGor1.height &&
-      backsideSizeTileGor1.width &&
-      priseBackside.prise &&
-      priseBackside.photoKoef
-    ) {
-      calculatedCost =
-        backsideSizeTileGor1.height *
-        backsideSizeTileGor1.width *
-        priseBackside.prise;
-      calculatedCost *= backsideSizeTileGor1.isPhoto
-        ? priseBackside.photoKoef
-        : 1;
-    }
-
-    setCostBackside(calculatedCost);
-  }, [
-    backsideSizeTileGor1.height,
-    backsideSizeTileGor1.isPhoto,
-    backsideSizeTileGor1.width,
-    priseBackside.photoKoef,
-    priseBackside.prise,
-  ]);
-
   // хук для отслеживаниия изменений в КОПІР
   useEffect(() => {
     let calculatedCost = 0;
@@ -320,60 +218,6 @@ export default function CalcTileGor1() {
     const selected = parseInt(event.target.value);
     setFacetSizeTileGor1(selected);
   };
-
-  // Обработчик выбора радиокнопки ФИО
-  const handleRadioFioTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFioFormatTileGor1(parseInt(event.target.value));
-  };
-
-  // Обработчик изменения поля ввода FIO IndSize
-  const handleFioIndSizeChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: keyof FioIndSize
-  ) => {
-    const { value } = e.target as HTMLInputElement;
-    setFioIndSizeTileGor1({
-      ...fioIndSizeTileGor1,
-      [field]: parseFloat(value),
-    });
-  };
-  useEffect(() => {
-    if (
-      fioFormatTileGor1 == 1 &&
-      fioIndSizeTileGor1.height &&
-      fioIndSizeTileGor1.width &&
-      priseFioIndivid
-    ) {
-      setCostFio(
-        fioIndSizeTileGor1.height * fioIndSizeTileGor1.width * priseFioIndivid
-      );
-    }
-    if (
-      fioFormatTileGor1 == 1 &&
-      (!fioIndSizeTileGor1.height ||
-        !fioIndSizeTileGor1.width ||
-        !priseFioIndivid)
-    ) {
-      setCostFio(0);
-    }
-  }, [
-    fioFormatTileGor1,
-    fioIndSizeTileGor1.height,
-    fioIndSizeTileGor1.width,
-    priseFioIndivid,
-  ]);
-
-  // Обработчик изменения поля ввода пір'я
-  useEffect(() => {
-    if (hackleTileGor1) {
-      const calcCost = hackleTileGor1 * priseHackle; // Расчет стоимости
-      setCostHackle(calcCost); // Обновляем стоимость
-    } else {
-      setCostHackle(0);
-    }
-  }, [hackleTileGor1, priseHackle]);
 
   return (
     <>
@@ -445,7 +289,7 @@ export default function CalcTileGor1() {
                 </p>
                 <p>
                   Загальна довжина фаски:{" "}
-                  {(formData.height! + formData.width!*2).toFixed(2)} м.п.
+                  {(formData.height! + formData.width! * 2).toFixed(2)} м.п.
                 </p>
                 <p className={css.textCost}>
                   Вартість матеріалу:{" "}
@@ -462,135 +306,6 @@ export default function CalcTileGor1() {
               >
                 Виберіть матеріал та вкажіть розміри!
               </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   ЗВОРОТНЯ СТОРОНА */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <p>Художня робота </p>
-            <hr /> <br />
-            <div>
-              <FormLabel id="backside">Задайте розміри для малюнку:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="backside-height"
-                  label="Висота, м"
-                  variant="standard"
-                  type="number"
-                  value={backsideSizeTileGor1.height || undefined}
-                  onChange={(e) => handleBacksideChange(e, "height")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-                <p style={{ marginLeft: "10px", marginRight: "10px" }}>x</p>
-                <TextField
-                  id="backside-width"
-                  label="Ширина, м"
-                  variant="standard"
-                  type="number"
-                  value={backsideSizeTileGor1.width || undefined}
-                  onChange={(e) => handleBacksideChange(e, "width")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "100px" }}
-                />
-              </div>
-              <p className={css.secondaryText}>
-                Ціна: {priseBackside.prise} грн. за м²
-              </p>
-              <FormControlLabel
-                disabled={
-                  !isValidForm ||
-                  !backsideSizeTileGor1.height ||
-                  !backsideSizeTileGor1.width
-                }
-                control={
-                  <Checkbox
-                    name="backside-photo"
-                    checked={backsideSizeTileGor1.isPhoto}
-                    onChange={(e) => handleBacksideIsPhotoChange(e, "isPhoto")}
-                  />
-                }
-                label={`Позолота  (ціна множиться на ${priseBackside.photoKoef})`}
-              />
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {backsideSizeTileGor1.height &&
-            backsideSizeTileGor1.width &&
-            isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа малюнку:{" "}
-                  {backsideSizeTileGor1.height * backsideSizeTileGor1.width}{" "}
-                  м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                      --------------------------   КОПІР */}
-        <div className={css.sheet}>
-          <div className={css.leftSide}>
-            <div>
-              <FormLabel id="kopir">Задайте розмір для копіру:</FormLabel>
-              <br />
-              <div className={css.sizesHider}>
-                <TextField
-                  id="kopir-lenght"
-                  label="Довжина, м"
-                  variant="standard"
-                  type="number"
-                  value={kopirTileGor1.lenght || undefined}
-                  onChange={(e) => handleKopirChange(e, "lenght")}
-                  margin="dense"
-                  disabled={!isValidForm}
-                  style={{ width: "200px" }}
-                />
-              </div>
-              <p className={css.secondaryText}>
-                Ціна: {priseKopir.prise} грн. за м²
-              </p>
-              <FormControlLabel
-                disabled={!isValidForm || !kopirTileGor1.lenght}
-                control={
-                  <Checkbox
-                    name="kopir-polished"
-                    checked={kopirTileGor1.isPolished}
-                    onChange={(e) =>
-                      handleKopirIsPolishedChange(e, "isPolished")
-                    }
-                  />
-                }
-                label={`Полірування (ціна множиться на ${priseKopir.polishedKoef})`}
-              />
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {kopirTileGor1.lenght && formData.thickness && isValidForm ? (
-              <div className={css.textResult}>
-                <p>
-                  Загальна площа копіру:{" "}
-                  {kopirTileGor1.lenght * formData.thickness} м²
-                </p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costKopir.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
             )}
           </div>
         </div>
@@ -677,8 +392,7 @@ export default function CalcTileGor1() {
             {facetSizeTileGor1 > 0 && facetLenghtTileGor1 && isValidForm ? (
               <div className={css.textResult}>
                 <p>
-                  Врахована довжина фаски: {facetLenghtTileGor1.toFixed(2)}{" "}
-                  м.п.
+                  Врахована довжина фаски: {facetLenghtTileGor1.toFixed(2)} м.п.
                 </p>
                 <p className={css.textCost}>
                   Вартість:{" "}
@@ -691,123 +405,53 @@ export default function CalcTileGor1() {
           </div>
         </div>
 
-        {/*                                                            --------------------------  ПІР'Я  */}
+        {/*                                                      --------------------------   КОПІР */}
         <div className={css.sheet}>
           <div className={css.leftSide}>
-            <div className={css.hackle}>
-              <FormLabel id="hackle">Задайте довжину пір'я:</FormLabel>
-              <br />
-
-              <TextField
-                id="hackle"
-                label="Довжина, м.п."
-                variant="standard"
-                type="number"
-                value={hackleTileGor1 || undefined}
-                onChange={(e) => setHackleTileGor1(parseFloat(e.target.value))}
-                margin="dense"
-                disabled={!isValidForm}
-              />
-              <p className={css.secondaryText}>
-                Ціна: {priseHackle} грн. за м.п.
-              </p>
-            </div>
-          </div>
-          <div className={css.rightSide}>
-            {hackleTileGor1 && hackleTileGor1 > 0 && isValidForm ? (
-              <div className={css.textResult}>
-                <p>Загальна довжина пір'я: {hackleTileGor1} м.п.</p>
-                <p className={css.textCost}>
-                  Вартість:{" "}
-                  {Number(costHackle.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              </div>
-            ) : (
-              <p> </p>
-            )}
-          </div>
-        </div>
-
-        {/*                                                          --------------------------  ФИО  */}
-        <div className={css.sheet} style={{ zIndex: 2, position: "relative" }}>
-          <div className={css.leftSide}>
             <div>
-              <p>Піскоструй </p>
-              <hr /> <br />
-              <FormControl>
-                <FormLabel id="radio-buttons-group-fio">
-                  Задайте розміри для надпису:
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="radio-buttons-group-fio"
-                  value={fioFormatTileGor1}
-                  onChange={handleRadioFioTypeChange}
-                  name="radio-buttons-group-fio"
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "end",
-                    }}
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio disabled={!isValidForm} />}
-                      label="Індивідуальний розмір"
-                    />
-                    <div
-                      className={css.sizesHider}
-                      style={{
-                        display: "flex",
-                        alignItems: "baseline",
-                        gap: "10px",
-                      }}
-                    >
-                      <TextField
-                        id="fio-height"
-                        label="Висота, м"
-                        variant="standard"
-                        type="number"
-                        value={fioIndSizeTileGor1.height || undefined}
-                        onChange={(e) => handleFioIndSizeChange(e, "height")}
-                        margin="dense"
-                        disabled={!isValidForm || fioFormatTileGor1 == 0}
-                        style={{ width: "100px" }}
-                      />
-                      <p>x</p>
-                      <TextField
-                        id="fio-width"
-                        label="Ширина, м"
-                        variant="standard"
-                        type="number"
-                        value={fioIndSizeTileGor1.width || undefined}
-                        onChange={(e) => handleFioIndSizeChange(e, "width")}
-                        margin="dense"
-                        disabled={!isValidForm || fioFormatTileGor1 == 0}
-                        style={{ width: "100px" }}
-                      />
-                    </div>
-                  </div>
-                </RadioGroup>
-              </FormControl>
+              <FormLabel id="kopir">Задайте розмір для копіру:</FormLabel>
+              <br />
+              <div className={css.sizesHider}>
+                <TextField
+                  id="kopir-lenght"
+                  label="Довжина, м"
+                  variant="standard"
+                  type="number"
+                  value={kopirTileGor1.lenght || undefined}
+                  onChange={(e) => handleKopirChange(e, "lenght")}
+                  margin="dense"
+                  disabled={!isValidForm}
+                  style={{ width: "200px" }}
+                />
+              </div>
               <p className={css.secondaryText}>
-                Ціна: {priseFioIndivid} грн. за м²
+                Ціна: {priseKopir.prise} грн. за м²
               </p>
+              <FormControlLabel
+                disabled={!isValidForm || !kopirTileGor1.lenght}
+                control={
+                  <Checkbox
+                    name="kopir-polished"
+                    checked={kopirTileGor1.isPolished}
+                    onChange={(e) =>
+                      handleKopirIsPolishedChange(e, "isPolished")
+                    }
+                  />
+                }
+                label={`Полірування (ціна множиться на ${priseKopir.polishedKoef})`}
+              />
             </div>
           </div>
           <div className={css.rightSide}>
-            {fioFormatTileGor1 == 1 &&
-            fioIndSizeTileGor1.height &&
-            fioIndSizeTileGor1.width &&
-            isValidForm ? (
+            {kopirTileGor1.lenght && formData.thickness && isValidForm ? (
               <div className={css.textResult}>
                 <p>
-                  Загальна площа зображення:{" "}
-                  {fioIndSizeTileGor1.height * fioIndSizeTileGor1.width} м²
+                  Загальна площа копіру:{" "}
+                  {kopirTileGor1.lenght * formData.thickness} м²
                 </p>
                 <p className={css.textCost}>
-                  Вартість: {Number(costFio.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
+                  Вартість:{" "}
+                  {Number(costKopir.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               </div>
             ) : (
@@ -836,24 +480,6 @@ export default function CalcTileGor1() {
                 <p> </p>
               )}
 
-              {costBackside && isValidForm ? (
-                <p className={css.textCost}>
-                  Художня робота:{" "}
-                  {Number(costBackside.toFixed(2)).toLocaleString("ru-RU")} грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costKopir && isValidForm ? (
-                <p className={css.textCost}>
-                  Копір: {Number(costKopir.toFixed(2)).toLocaleString("ru-RU")}{" "}
-                  грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
               {costFacet && isValidForm ? (
                 <p className={css.textCost}>
                   Фазка: {Number(costFacet.toFixed(2)).toLocaleString("ru-RU")}{" "}
@@ -863,19 +489,10 @@ export default function CalcTileGor1() {
                 <p> </p>
               )}
 
-              {costHackle && isValidForm ? (
+              {costKopir && isValidForm ? (
                 <p className={css.textCost}>
-                  Пір'я: {Number(costHackle.toFixed(2)).toLocaleString("ru-RU")}{" "}
+                  Копір: {Number(costKopir.toFixed(2)).toLocaleString("ru-RU")}{" "}
                   грн.
-                </p>
-              ) : (
-                <p> </p>
-              )}
-
-              {costFio && isValidForm ? (
-                <p className={css.textCost}>
-                  Піскоструй:{" "}
-                  {Number(costFio.toFixed(2)).toLocaleString("ru-RU")} грн.
                 </p>
               ) : (
                 <p> </p>
