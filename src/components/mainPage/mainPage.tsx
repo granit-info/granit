@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -12,7 +11,6 @@ import CalcCrossSolid from "../calcCrossSolid/CalcCrossSolid";
 import CalcCrossGlued from "../calcCrossGlued/CalcCrossGlued";
 import CalcVaseTurned from "../calcVaseTurned/CalcVaseTurned";
 import CalcVaseSquare from "../calcVaseSquare/CalcVaseSquare";
-import CalcLamp from "../calcLampTurned/CalcLampTurned";
 import CalcTombstone from "../calcTombstone/CalcTombstone";
 import CalcTileGor1 from "../calcTileGor1/CalcTileGor1";
 import CalcTileGor2 from "../calcTileGor2/CalcTileGor2";
